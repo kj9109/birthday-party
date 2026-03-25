@@ -94,7 +94,7 @@ export default function Hero() {
             alt="Daria"
             width={224}
             height={224}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
             priority
           />
         </motion.div>
