@@ -51,7 +51,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 md:pt-0 overflow-hidden"
     >
       {/* Background decorations */}
       <div className="absolute inset-0 pointer-events-none">
