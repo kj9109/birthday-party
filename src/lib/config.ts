@@ -5,12 +5,12 @@
 
 export const PARTY_CONFIG = {
   // Birthday person's name
-  name: "Sarah",
+  name: "Daria",
 
   // Party date and time
-  date: "2026-04-25",
-  time: "7:00 PM",
-  endTime: "11:00 PM",
+  date: "2026-05-02",
+  time: "2:00 PM",
+  endTime: "2:00 PM – whenever!",
 
   // Venue details
   venue: "The Grand Ballroom",
@@ -18,16 +18,16 @@ export const PARTY_CONFIG = {
 
   // Hero section
   tagline: "You're Invited",
-  subtitle: "An Evening of Elegance & Celebration",
+  subtitle: "An Afternoon of Elegance & Celebration",
 
   // Itinerary
   itinerary: [
-    { time: "7:00 PM", title: "Arrival & Cocktails", description: "Welcome drinks and mingling" },
-    { time: "7:45 PM", title: "Dinner is Served", description: "A curated three-course dining experience" },
-    { time: "8:45 PM", title: "Toasts & Speeches", description: "Heartfelt words from loved ones" },
-    { time: "9:15 PM", title: "Cake & Celebration", description: "The moment we've been waiting for" },
-    { time: "9:45 PM", title: "Dancing & Music", description: "Let the celebration continue" },
-    { time: "11:00 PM", title: "Farewell", description: "Thank you for celebrating with us" },
+    { time: "2:00 PM", title: "Arrival & Welcome", description: "Drinks, hugs, and good vibes" },
+    { time: "2:45 PM", title: "Food & Refreshments", description: "A spread of delicious bites and sips" },
+    { time: "3:45 PM", title: "Toasts & Speeches", description: "Heartfelt words from loved ones" },
+    { time: "4:15 PM", title: "Cake & Celebration", description: "The moment we've been waiting for" },
+    { time: "5:00 PM", title: "Music & Dancing", description: "Let the party keep going" },
+    { time: "???", title: "The Party Goes On", description: "No end time — we'll celebrate as long as we want!" },
   ],
 
   // Initial checklist items

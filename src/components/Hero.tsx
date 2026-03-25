@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, MapPin, Clock } from "lucide-react";
+import Image from "next/image";
 import { PARTY_CONFIG } from "@/lib/config";
 
 function useCountdown(targetDate: string) {
@@ -14,7 +15,8 @@ function useCountdown(targetDate: string) {
   });
 
   useEffect(() => {
-    const target = new Date(`${targetDate}T19:00:00`).getTime();
+    // May 2, 2026 at 2:00 PM ET (UTC-4 in summer / EDT)
+    const target = new Date(`${targetDate}T14:00:00-04:00`).getTime();
 
     const update = () => {
       const now = Date.now();
@@ -80,6 +82,23 @@ export default function Hero() {
           {PARTY_CONFIG.tagline}
         </motion.p>
 
+        {/* Photo */}
+        <motion.div
+          className="mx-auto mb-6 w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-gold-300 shadow-lg shadow-gold-200/40"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+        >
+          <Image
+            src="/daria.jpg"
+            alt="Daria"
+            width={224}
+            height={224}
+            className="w-full h-full object-cover"
+            priority
+          />
+        </motion.div>
+
         {/* Name */}
         <motion.h1
           className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-neutral-900 mb-4 leading-tight"
@@ -120,7 +139,7 @@ export default function Hero() {
           <div className="flex items-center gap-2">
             <Clock size={18} className="text-gold-400" />
             <span className="font-sans text-sm tracking-wide">
-              {formattedDate} &middot; {PARTY_CONFIG.time}
+              {formattedDate} &middot; {PARTY_CONFIG.endTime}
             </span>
           </div>
           <div className="hidden md:block w-1 h-1 rounded-full bg-gold-400" />

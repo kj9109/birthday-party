@@ -37,26 +37,27 @@ export default function PrivateQuestions() {
   return (
     <section id="questions" className="py-24 px-6">
       <div className="max-w-lg mx-auto">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="font-script text-3xl text-gold-400 mb-2">
-            Have a
-          </p>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
-            Question?
-          </h2>
-          <div className="section-divider mt-6" />
-        </motion.div>
+        <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="font-script text-3xl text-gold-400 mb-2">
+              Have a
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
+              Question?
+            </h2>
+            <div className="section-divider mt-6" />
+          </motion.div>
+        </div>
 
         <motion.div
           className="elegant-card p-8 relative corner-decoration"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6 }}
         >

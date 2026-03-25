@@ -22,8 +22,8 @@ const greatVibes = Great_Vibes({
 });
 
 export const metadata: Metadata = {
-  title: "You're Invited | Birthday Celebration",
-  description: "Join us for an evening of elegance and celebration",
+  title: "You're Invited | Daria's Birthday Celebration",
+  description: "Join us for an afternoon of elegance and celebration for Daria",
 };
 
 export default function RootLayout({
