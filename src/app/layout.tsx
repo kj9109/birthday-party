@@ -1,0 +1,44 @@
+import type { Metadata } from "next";
+import { Playfair_Display, Montserrat, Great_Vibes } from "next/font/google";
+import "./globals.css";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
+
+const greatVibes = Great_Vibes({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-great-vibes",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "You're Invited | Birthday Celebration",
+  description: "Join us for an evening of elegance and celebration",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html
+      lang="en"
+      className={`${playfair.variable} ${montserrat.variable} ${greatVibes.variable}`}
+    >
+      <body className="font-sans text-neutral-800 antialiased">
+        {children}
+      </body>
+    </html>
+  );
+}

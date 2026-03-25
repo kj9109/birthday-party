@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #FAFAF8;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F5F0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B8941F;
+}
+
+/* Gold gradient text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #E8D5A3 50%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gold shimmer border */
+.gold-shimmer-border {
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Gold border gradient */
+.gold-border-gradient {
+  border-image: linear-gradient(135deg, #D4AF37, #E8D5A3, #D4AF37) 1;
+}
+
+/* Section divider */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+/* Elegant card */
+.elegant-card {
+  background: white;
+  border: 1px solid #F0E6C8;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(212, 175, 55, 0.08);
+  transition: all 0.3s ease;
+}
+
+.elegant-card:hover {
+  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15);
+  border-color: #D4AF37;
+}
+
+/* Gold button */
+.gold-button {
+  background: linear-gradient(135deg, #D4AF37 0%, #E8D5A3 50%, #D4AF37 100%);
+  background-size: 200% 200%;
+  color: #1A1A1A;
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.gold-button:hover {
+  background-position: 100% 100%;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+  transform: translateY(-1px);
+}
+
+.gold-button:active {
+  transform: translateY(0);
+}
+
+/* Gold checkbox */
+.gold-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #D4AF37;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.gold-checkbox:checked {
+  background: linear-gradient(135deg, #D4AF37, #E8D5A3);
+}
+
+.gold-checkbox:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #1A1A1A;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Gold input focus */
+.gold-input {
+  border: 1px solid #E0D5B8;
+  border-radius: 8px;
+  padding: 12px 16px;
+  outline: none;
+  transition: all 0.3s ease;
+  background: white;
+  width: 100%;
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+}
+
+.gold-input:focus {
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+.gold-input::placeholder {
+  color: #B0A890;
+}
+
+/* Timeline styles */
+.timeline-line {
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, #D4AF37, #E8D5A3, #D4AF37);
+}
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  background: #D4AF37;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px #D4AF37;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* Decorative corner */
+.corner-decoration::before,
+.corner-decoration::after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-color: #D4AF37;
+  border-style: solid;
+}
+
+.corner-decoration::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.corner-decoration::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
