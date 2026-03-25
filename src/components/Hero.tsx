@@ -138,14 +138,14 @@ export default function Hero() {
         >
           <div className="flex items-center gap-2">
             <Clock size={18} className="text-gold-400" />
-            <span className="font-sans text-sm tracking-wide">
+            <span className="font-sans text-sm font-bold tracking-wide">
               {formattedDate} &middot; {PARTY_CONFIG.endTime}
             </span>
           </div>
           <div className="hidden md:block w-1 h-1 rounded-full bg-gold-400" />
           <div className="flex items-center gap-2">
             <MapPin size={18} className="text-gold-400" />
-            <span className="font-sans text-sm tracking-wide">
+            <span className="font-sans text-sm font-bold tracking-wide">
               {PARTY_CONFIG.venue}
             </span>
           </div>

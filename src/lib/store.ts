@@ -18,29 +18,21 @@ export interface Question {
 export interface Attendee {
   id: string;
   name: string;
-  email?: string;
+  photo?: string;
   rsvp: "attending" | "maybe" | "declined";
   timestamp: string;
-}
-
-export interface ChecklistItem {
-  id: string;
-  text: string;
-  completed: boolean;
 }
 
 interface Store {
   messages: Message[];
   questions: Question[];
   attendees: Attendee[];
-  checklist: ChecklistItem[];
 }
 
 const store: Store = {
   messages: [],
   questions: [],
   attendees: [],
-  checklist: [],
 };
 
 export function getData<K extends keyof Store>(key: K): Store[K] {

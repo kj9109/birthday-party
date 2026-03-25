@@ -23,7 +23,10 @@ const greatVibes = Great_Vibes({
 
 export const metadata: Metadata = {
   title: "You're Invited | Daria's Birthday Celebration",
-  description: "Join us for an afternoon of elegance and celebration for Daria",
+  description: "Join us for a weekend of celebration with friends & family for Daria",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

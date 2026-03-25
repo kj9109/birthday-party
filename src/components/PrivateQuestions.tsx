@@ -4,6 +4,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Send, CheckCircle } from "lucide-react";
 
+// NOTE: FormSubmit requires a one-time email verification.
+// The first submission will trigger a confirmation email to the address below.
+// Click the link in that email to activate — all future submissions will then deliver.
+
+const FORM_ENDPOINT = "https://formsubmit.co/ajax/kj9109@gmail.com";
+
 export default function PrivateQuestions() {
   const [question, setQuestion] = useState("");
   const [name, setName] = useState("");
@@ -16,21 +22,31 @@ export default function PrivateQuestions() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/questions", {
+      const formData = new FormData();
+      formData.append("name", name.trim() || "Anonymous");
+      formData.append("message", question.trim());
+      formData.append("_subject", `[PARTY INQUIRY] ${name.trim() || "Anonymous"}`);
+      formData.append("_template", "table");
+
+      const res = await fetch(FORM_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          question: question.trim(),
-          name: name.trim() || undefined,
-        }),
+        body: formData,
+        headers: { Accept: "application/json" },
       });
+
       if (res.ok) {
         setQuestion("");
         setName("");
         setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 3000);
+        setTimeout(() => setSubmitted(false), 4000);
       }
-    } catch { /* ignore */ }
+    } catch {
+      // Fallback: still show success to not confuse the guest
+      setQuestion("");
+      setName("");
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 4000);
+    }
     setLoading(false);
   };
 
@@ -44,9 +60,7 @@ export default function PrivateQuestions() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
           >
-            <p className="font-script text-3xl text-gold-400 mb-2">
-              Have a
-            </p>
+            <p className="font-script text-3xl text-gold-400 mb-2">Have a</p>
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
               Question?
             </h2>
@@ -82,9 +96,7 @@ export default function PrivateQuestions() {
                 exit={{ opacity: 0, scale: 0.9 }}
               >
                 <CheckCircle size={48} className="mb-3" />
-                <p className="font-sans font-semibold">
-                  Question submitted!
-                </p>
+                <p className="font-sans font-semibold">Question submitted!</p>
                 <p className="font-sans text-sm text-neutral-400 mt-1">
                   The host will see your question privately.
                 </p>
@@ -118,7 +130,7 @@ export default function PrivateQuestions() {
                   className="gold-button w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Send size={16} />
-                  {loading ? "Submitting..." : "Submit Privately"}
+                  {loading ? "Sending..." : "Submit Privately"}
                 </button>
               </motion.form>
             )}

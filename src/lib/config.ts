@@ -26,16 +26,16 @@ export const PARTY_CONFIG = {
       day: "Saturday",
       date: "May 2",
       events: [
-        { time: "2:00 PM", title: "Party Begins — New Hope Winery", description: "Wine tasting, live music, good vibes" },
+        { time: "2:00 PM", title: "Party Begins — New Hope Winery", description: "Wine, snacks and good vibes" },
         { time: "5:00 PM", title: "Party Continues — Chimney Hill Estate Inn", description: "Settle in, explore the grounds" },
-        { time: "7:00 PM", title: "Dinner at the Inn", description: "A wonderful meal together" },
+        { time: "7:00 PM", title: "Dinner at the Inn", description: "Catered Italian Classics" },
       ],
     },
     {
       day: "Sunday",
       date: "May 3",
       events: [
-        { time: "8:00 AM", title: "Breakfast at the Inn", description: "Gourmet breakfast to start the morning" },
+        { time: "8:00 AM", title: "Breakfast at the Inn", description: "Breakfast to start the morning, for those who stayed over" },
         { time: "Afternoon", title: "Party Concludes", description: "Until next time!" },
       ],
     },
@@ -77,17 +77,7 @@ export const PARTY_CONFIG = {
     },
   },
 
-  // Initial checklist items
-  defaultChecklist: [
-    "Book the venue",
-    "Send out invitations",
-    "Order the cake",
-    "Arrange flowers & decorations",
-    "Plan the music playlist",
-    "Coordinate catering menu",
-    "Set up photo booth",
-    "Prepare party favors",
-    "Confirm guest dietary restrictions",
-    "Arrange transportation",
-  ],
+  // Invited guest names (for "Awaiting RSVP" display)
+  // Add names here — anyone who RSVPs will move out of this list automatically
+  invitedGuests: [] as string[],
 };

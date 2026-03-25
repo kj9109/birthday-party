@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8C56D"/>
+      <stop offset="50%" stop-color="#D4A853"/>
+      <stop offset="100%" stop-color="#C5943A"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4A853"/>
+      <stop offset="100%" stop-color="#B8841A"/>
+    </linearGradient>
+  </defs>
+  <!-- Left ribbon tail -->
+  <path d="M30 38 Q22 48 14 58 Q18 50 22 44 L30 38Z" fill="url(#g1)" opacity="0.85"/>
+  <!-- Right ribbon tail -->
+  <path d="M34 38 Q42 48 50 58 Q46 50 42 44 L34 38Z" fill="url(#g1)" opacity="0.85"/>
+  <!-- Left loop -->
+  <path d="M32 30 C28 18 14 10 10 20 C6 30 20 34 32 30Z" fill="url(#g1)" stroke="#C5943A" stroke-width="1"/>
+  <!-- Right loop -->
+  <path d="M32 30 C36 18 50 10 54 20 C58 30 44 34 32 30Z" fill="url(#g1)" stroke="#C5943A" stroke-width="1"/>
+  <!-- Left inner highlight -->
+  <path d="M32 30 C29 22 20 16 17 22 C14 28 24 32 32 30Z" fill="#E8C56D" opacity="0.5"/>
+  <!-- Right inner highlight -->
+  <path d="M32 30 C35 22 44 16 47 22 C50 28 40 32 32 30Z" fill="#E8C56D" opacity="0.5"/>
+  <!-- Center knot -->
+  <ellipse cx="32" cy="32" rx="6" ry="5" fill="url(#g2)" stroke="#B8841A" stroke-width="0.8"/>
+  <ellipse cx="32" cy="31" rx="4" ry="3" fill="#D4A853" opacity="0.6"/>
+</svg>

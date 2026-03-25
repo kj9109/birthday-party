@@ -7,11 +7,10 @@ const navLinks = [
   { href: "#home", label: "Home" },
   { href: "#schedule", label: "Schedule" },
   { href: "#venues", label: "Venues" },
-  { href: "#calendar", label: "Calendar" },
   { href: "#guests", label: "Guests" },
   { href: "#messages", label: "Messages" },
+  { href: "#video", label: "Video Wish" },
   { href: "#questions", label: "Questions" },
-  { href: "#checklist", label: "Checklist" },
 ];
 
 export default function Navigation() {
