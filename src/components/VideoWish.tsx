@@ -1,12 +1,31 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Video, Upload, Heart, CheckCircle, AlertCircle } from "lucide-react";
+import {
+  Video,
+  Upload,
+  Heart,
+  CheckCircle,
+  AlertCircle,
+  User,
+} from "lucide-react";
+import type { VideoWish as VideoWishType } from "@/lib/types";
 
-// NOTE: FormSubmit requires a one-time email verification.
-// The first submission triggers a confirmation email — click to activate.
-const FORM_EMAIL = "kj9109@gmail.com";
+const BLOB_AVAILABLE = true; // Will gracefully fail if not configured
+
+async function uploadVideoToBlob(file: File): Promise<string | null> {
+  try {
+    const { upload } = await import("@vercel/blob/client");
+    const blob = await upload(`birthday-videos/${file.name}`, file, {
+      access: "public",
+      handleUploadUrl: "/api/blob-upload",
+    });
+    return blob.url;
+  } catch {
+    return null;
+  }
+}
 
 export default function VideoWish() {
   const [name, setName] = useState("");
@@ -14,10 +33,23 @@ export default function VideoWish() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [wishes, setWishes] = useState<VideoWishType[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
 
-  const MAX_SIZE_MB = 25;
+  const fetchWishes = useCallback(async () => {
+    try {
+      const res = await fetch("/api/upload-video");
+      if (res.ok) setWishes(await res.json());
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchWishes();
+  }, [fetchWishes]);
+
+  const MAX_SIZE_MB = 100;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -43,37 +75,51 @@ export default function VideoWish() {
 
     setLoading(true);
     setError("");
-    try {
-      const formData = new FormData();
-      formData.append("name", name.trim());
-      formData.append("_subject", `[BIRTHDAY VIDEO] ${name.trim()}`);
-      formData.append("_template", "table");
-      formData.append("attachment", videoFile);
 
-      const res = await fetch(`https://formsubmit.co/ajax/${FORM_EMAIL}`, {
+    try {
+      // Upload video to Vercel Blob
+      const videoUrl = await uploadVideoToBlob(videoFile);
+
+      if (!videoUrl) {
+        setError(
+          "Video storage is not configured yet. Please email your video to kj9109@gmail.com with the subject line '[BIRTHDAY VIDEO]'."
+        );
+        setLoading(false);
+        return;
+      }
+
+      // Save record
+      const res = await fetch("/api/upload-video", {
         method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          guestName: name.trim(),
+          videoUrl,
+        }),
       });
 
       if (res.ok) {
         setSubmitted(true);
+        setName("");
+        setVideoFile(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        fetchWishes();
       } else {
-        // Fallback: try regular form submission
-        if (formRef.current) {
-          formRef.current.submit();
-          return;
-        }
-        setError("Something went wrong. Please try emailing the video instead.");
+        setError("Something went wrong. Please try again.");
       }
     } catch {
-      setError("Something went wrong. Please try emailing the video instead.");
+      setError(
+        "Something went wrong. Please try emailing your video to kj9109@gmail.com instead."
+      );
     }
     setLoading(false);
   };
 
   return (
-    <section id="video" className="py-24 px-6 bg-gradient-to-b from-white via-gold-50/30 to-white">
+    <section
+      id="video"
+      className="py-24 px-6 bg-gradient-to-b from-white via-gold-50/30 to-white"
+    >
       <div className="max-w-2xl mx-auto">
         <motion.div
           className="text-center mb-16"
@@ -108,9 +154,9 @@ export default function VideoWish() {
                 Record a video for Daria
               </h3>
               <p className="font-sans text-sm text-neutral-600 leading-relaxed">
-                Record a short video (15–60 seconds) of yourself wishing Daria a
-                happy birthday, and telling her why she is special to you — what
-                impact she&apos;s had on your life.
+                Record a short video (15–60 seconds) of yourself wishing Daria
+                a happy birthday, and telling her why she is special to you —
+                what impact she&apos;s had on your life.
               </p>
             </div>
           </div>
@@ -128,98 +174,122 @@ export default function VideoWish() {
                 <p className="font-serif text-xl font-bold text-neutral-900 mb-1">
                   Thank you!
                 </p>
-                <p className="font-sans text-sm text-neutral-500 text-center">
-                  Your video message has been sent. Daria will love it.
+                <p className="font-sans text-sm text-neutral-500 text-center mb-6">
+                  Your video message has been saved. Daria will love it.
                 </p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="font-sans text-sm text-gold-500 hover:text-gold-600 underline underline-offset-2"
+                >
+                  Submit another video
+                </button>
               </motion.div>
             ) : (
-              <motion.div key="form" initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                {/* Visible form for AJAX submission */}
-                <form onSubmit={handleSubmit} className="space-y-5">
+              <motion.form
+                key="form"
+                onSubmit={handleSubmit}
+                className="space-y-5"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Your name"
+                  className="gold-input"
+                  required
+                />
+
+                {/* File upload area */}
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border-2 border-dashed border-gold-300 hover:border-gold-400 rounded-xl p-8 text-center cursor-pointer transition-colors group"
+                >
                   <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Your name"
-                    className="gold-input"
-                    required
+                    ref={fileInputRef}
+                    type="file"
+                    accept="video/mp4,video/quicktime,video/webm,video/*"
+                    onChange={handleFileChange}
+                    className="hidden"
                   />
-
-                  {/* File upload area */}
-                  <div
-                    onClick={() => fileInputRef.current?.click()}
-                    className="border-2 border-dashed border-gold-300 hover:border-gold-400 rounded-xl p-8 text-center cursor-pointer transition-colors group"
-                  >
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="video/mp4,video/quicktime,video/webm,video/mov,video/*"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-                    {videoFile ? (
-                      <div className="flex flex-col items-center">
-                        <Video
-                          size={32}
-                          className="text-gold-400 mb-2"
-                        />
-                        <p className="font-sans text-sm font-semibold text-neutral-800">
-                          {videoFile.name}
-                        </p>
-                        <p className="font-sans text-xs text-neutral-400 mt-1">
-                          {(videoFile.size / 1024 / 1024).toFixed(1)} MB — Click
-                          to change
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center text-gold-400 group-hover:text-gold-500 transition-colors">
-                        <Upload size={32} className="mb-2" />
-                        <p className="font-sans text-sm font-medium text-neutral-700">
-                          Click to upload your video
-                        </p>
-                        <p className="font-sans text-xs text-neutral-400 mt-1">
-                          MP4, MOV, or WebM · Under {MAX_SIZE_MB}MB
-                        </p>
-                        <p className="font-sans text-xs text-neutral-400 mt-0.5">
-                          Tip: Record on your phone at 720p for best results
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  {error && (
-                    <div className="flex items-start gap-2 text-rose-500 bg-rose-50 rounded-lg p-3">
-                      <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
-                      <p className="font-sans text-xs">{error}</p>
+                  {videoFile ? (
+                    <div className="flex flex-col items-center">
+                      <Video size={32} className="text-gold-400 mb-2" />
+                      <p className="font-sans text-sm font-semibold text-neutral-800">
+                        {videoFile.name}
+                      </p>
+                      <p className="font-sans text-xs text-neutral-400 mt-1">
+                        {(videoFile.size / 1024 / 1024).toFixed(1)} MB —
+                        Click to change
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center text-gold-400 group-hover:text-gold-500 transition-colors">
+                      <Upload size={32} className="mb-2" />
+                      <p className="font-sans text-sm font-medium text-neutral-700">
+                        Click to upload your video
+                      </p>
+                      <p className="font-sans text-xs text-neutral-400 mt-1">
+                        MP4, MOV, or WebM · Under {MAX_SIZE_MB}MB
+                      </p>
+                      <p className="font-sans text-xs text-neutral-400 mt-0.5">
+                        Tip: Record on your phone at 720p for best results
+                      </p>
                     </div>
                   )}
+                </div>
 
-                  <button
-                    type="submit"
-                    disabled={loading || !name.trim() || !videoFile}
-                    className="gold-button w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <Video size={16} />
-                    {loading ? "Sending..." : "Send Video Wish"}
-                  </button>
-                </form>
+                {error && (
+                  <div className="flex items-start gap-2 text-rose-500 bg-rose-50 rounded-lg p-3">
+                    <AlertCircle
+                      size={16}
+                      className="mt-0.5 flex-shrink-0"
+                    />
+                    <p className="font-sans text-xs">{error}</p>
+                  </div>
+                )}
 
-                {/* Hidden fallback form for non-AJAX submission */}
-                <form
-                  ref={formRef}
-                  action={`https://formsubmit.co/${FORM_EMAIL}`}
-                  method="POST"
-                  encType="multipart/form-data"
-                  className="hidden"
+                <button
+                  type="submit"
+                  disabled={loading || !name.trim() || !videoFile}
+                  className="gold-button w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <input type="hidden" name="_subject" value={`[BIRTHDAY VIDEO] ${name}`} />
-                  <input type="hidden" name="_next" value={typeof window !== "undefined" ? window.location.href : ""} />
-                  <input type="hidden" name="name" value={name} />
-                </form>
-              </motion.div>
+                  <Video size={16} />
+                  {loading ? "Uploading..." : "Send Video Wish"}
+                </button>
+              </motion.form>
             )}
           </AnimatePresence>
         </motion.div>
+
+        {/* Who has submitted */}
+        {wishes.length > 0 && (
+          <motion.div
+            className="mt-8 text-center"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="font-sans text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3">
+              Video wishes received ({wishes.length})
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {wishes.map((w) => (
+                <div
+                  key={w.id}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gold-50 border border-gold-200"
+                >
+                  <User size={12} className="text-gold-500" />
+                  <span className="font-sans text-xs font-medium text-gold-700">
+                    {w.guestName}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );
