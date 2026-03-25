@@ -131,23 +131,31 @@ export default function Hero() {
 
         {/* Date & venue details */}
         <motion.div
-          className="flex flex-col md:flex-row items-center justify-center gap-6 mb-12 text-neutral-600"
+          className="flex flex-col items-center text-center gap-3 mb-12"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.6 }}
         >
-          <div className="flex items-center gap-2">
-            <Clock size={18} className="text-gold-400" />
-            <span className="font-sans text-sm font-bold tracking-wide">
-              {formattedDate} &middot; {PARTY_CONFIG.endTime}
-            </span>
+          <p className="font-sans text-base md:text-lg font-bold tracking-wide text-neutral-800">
+            {formattedDate}
+          </p>
+          <p className="font-sans text-sm md:text-base font-semibold text-neutral-500 tracking-wide">
+            {PARTY_CONFIG.endTime}
+          </p>
+
+          <div className="flex items-center gap-2 my-1">
+            <div className="w-6 h-[1px] bg-gold-300" />
+            <div className="w-1.5 h-1.5 rounded-full bg-gold-400" />
+            <div className="w-6 h-[1px] bg-gold-300" />
           </div>
-          <div className="hidden md:block w-1 h-1 rounded-full bg-gold-400" />
+
           <div className="flex items-center gap-2">
-            <MapPin size={18} className="text-gold-400" />
-            <span className="font-sans text-sm font-bold tracking-wide">
-              {PARTY_CONFIG.venue}
-            </span>
+            <MapPin size={16} className="text-gold-400 flex-shrink-0" />
+            <p className="font-sans text-sm font-bold text-neutral-500 tracking-wide">
+              New Hope Winery{" "}
+              <span className="text-gold-400 mx-1">→</span>
+              {" "}Chimney Hill Estate Inn
+            </p>
           </div>
         </motion.div>
 
