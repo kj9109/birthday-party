@@ -45,7 +45,7 @@ function statusMessage(status: string, name: string): { heading: string; body: s
   if (status === "maybe") {
     return {
       heading: "We hope you can make it!",
-      body: `Let us know when you decide, ${firstName} — we'd love to have you there.`,
+      body: `Let us know when you decide, ${firstName}. We'd love to have you there!`,
     };
   }
   return {
@@ -56,7 +56,7 @@ function statusMessage(status: string, name: string): { heading: string; body: s
 
 export async function sendHostNotification(guest: Guest, plusOne?: Guest): Promise<void> {
   if (!useResend()) {
-    console.log("[EMAIL] Resend not configured — skipping host notification for", guest.name);
+    console.log("[EMAIL] Resend not configured, skipping host notification for", guest.name);
     return;
   }
 
@@ -95,7 +95,7 @@ export async function sendHostNotification(guest: Guest, plusOne?: Guest): Promi
 
 export async function sendGuestConfirmation(guest: Guest): Promise<void> {
   if (!useResend()) {
-    console.log("[EMAIL] Resend not configured — skipping guest confirmation for", guest.name);
+    console.log("[EMAIL] Resend not configured, skipping guest confirmation for", guest.name);
     return;
   }
 
@@ -119,9 +119,9 @@ export async function sendGuestConfirmation(guest: Guest): Promise<void> {
         <hr style="border:none;border-top:1px solid #E8D5A3;margin:16px 0;" />
 
         <p style="font-weight:600;margin:0 0 8px;">Here's the plan:</p>
-        <p style="margin:0 0 4px;">🍷 <strong>Winery</strong> (2–5 PM) — New Hope Winery, 6123 Lower York Rd, New Hope, PA</p>
-        <p style="margin:0 0 4px;">🍝 <strong>Dinner & Evening Party</strong> — Chimney Hill Estate Inn, 207 Goat Hill Rd, Lambertville, NJ</p>
-        <p style="margin:0 0 4px;">🏨 <strong>Staying Over</strong> — Chimney Hill Estate Inn</p>
+        <p style="margin:0 0 4px;">🍷 <strong>Winery</strong> (2-5 PM) - New Hope Winery, 6123 Lower York Rd, New Hope, PA</p>
+        <p style="margin:0 0 4px;">🍝 <strong>Dinner & Evening Party</strong> - Chimney Hill Estate Inn, 207 Goat Hill Rd, Lambertville, NJ</p>
+        <p style="margin:0 0 4px;">🏨 <strong>Staying Over</strong> - Chimney Hill Estate Inn</p>
       </div>
 
       ${calLinks ? `
@@ -136,7 +136,7 @@ export async function sendGuestConfirmation(guest: Guest): Promise<void> {
       </div>
 
       <p style="text-align:center;color:#999;font-size:12px;margin-top:32px;">
-        Daria's Birthday Celebration — May 2–3, 2026
+        Daria's Birthday Celebration - May 2-3, 2026
       </p>
     </div>
   `;
@@ -145,7 +145,7 @@ export async function sendGuestConfirmation(guest: Guest): Promise<void> {
     await resend.emails.send({
       from: FROM_EMAIL,
       to: guest.email,
-      subject: "You're on the list! 🎉 Daria's Birthday — May 2-3",
+      subject: "You're on the list! 🎉 Daria's Birthday, May 2-3",
       html,
     });
   } catch (err) {

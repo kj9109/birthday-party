@@ -60,7 +60,7 @@ export default function VideoWish() {
     }
     if (file.size > MAX_SIZE_MB * 1024 * 1024) {
       setError(
-        `File is too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Please keep it under ${MAX_SIZE_MB}MB — try recording at 720p or trimming the clip.`
+        `File is too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Please keep it under ${MAX_SIZE_MB}MB. Try recording at 720p or trimming the clip.`
       );
       setVideoFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -155,7 +155,7 @@ export default function VideoWish() {
               </h3>
               <p className="font-sans text-sm text-neutral-600 leading-relaxed">
                 Record a short video (15–60 seconds) of yourself wishing Daria
-                a happy birthday, and telling her why she is special to you —
+                a happy birthday, and telling her why she is special to you:
                 what impact she&apos;s had on your life.
               </p>
             </div>
@@ -220,7 +220,7 @@ export default function VideoWish() {
                         {videoFile.name}
                       </p>
                       <p className="font-sans text-xs text-neutral-400 mt-1">
-                        {(videoFile.size / 1024 / 1024).toFixed(1)} MB —
+                        {(videoFile.size / 1024 / 1024).toFixed(1)} MB,
                         Click to change
                       </p>
                     </div>

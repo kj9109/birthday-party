@@ -6,7 +6,7 @@ import { Lock, Send, CheckCircle } from "lucide-react";
 
 // NOTE: FormSubmit requires a one-time email verification.
 // The first submission will trigger a confirmation email to the address below.
-// Click the link in that email to activate — all future submissions will then deliver.
+// Click the link in that email to activate. All future submissions will then deliver.
 
 const FORM_ENDPOINT = "https://formsubmit.co/ajax/kj9109@gmail.com";
 

@@ -105,7 +105,7 @@ async function uploadToBlob(file: File): Promise<string | null> {
     });
     return blob.url;
   } catch {
-    // Blob not configured — fall back to base64
+    // Blob not configured, fall back to base64
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result as string);
@@ -259,7 +259,7 @@ export default function Attendees() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* LEFT — RSVP Form */}
+          {/* LEFT: RSVP Form */}
           <motion.div
             className="elegant-card p-6 md:p-8"
             initial={{ opacity: 0, y: 20 }}
@@ -289,7 +289,7 @@ export default function Attendees() {
                     {submittedStatus === "attending"
                       ? "You're on the list! 🎉"
                       : submittedStatus === "maybe"
-                        ? "Got it — hope you can make it!"
+                        ? "Got it, hope you can make it!"
                         : "We'll miss you!"}
                   </h3>
                   <p className="font-sans text-sm text-neutral-500 mb-6">
@@ -516,7 +516,7 @@ export default function Attendees() {
             </AnimatePresence>
           </motion.div>
 
-          {/* RIGHT — Guest List */}
+          {/* RIGHT: Guest List */}
           <motion.div
             className="elegant-card p-6 md:max-h-[700px] md:overflow-y-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -528,7 +528,7 @@ export default function Attendees() {
               <div className="flex flex-col items-center justify-center py-12 text-neutral-400">
                 <Users size={36} className="mb-3 text-gold-200" />
                 <p className="font-sans text-sm">
-                  No RSVPs yet — be the first!
+                  No RSVPs yet. Be the first!
                 </p>
               </div>
             )}

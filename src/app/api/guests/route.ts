@@ -93,7 +93,7 @@ export async function POST(request: Request) {
 
     await setKey("guests", guests);
 
-    // Send emails (don't await — fire and forget so the response is fast)
+    // Send emails (fire and forget so the response is fast)
     sendHostNotification(guestData, plusOneGuest).catch(() => {});
     sendGuestConfirmation(guestData).catch(() => {});
 
