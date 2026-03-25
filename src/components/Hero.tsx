@@ -84,7 +84,7 @@ export default function Hero() {
 
         {/* Photo */}
         <motion.div
-          className="mx-auto mb-6 w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-gold-300 shadow-lg shadow-gold-200/40"
+          className="mx-auto mb-6 w-52 h-52 md:w-80 md:h-80 lg:w-[340px] lg:h-[340px] rounded-full overflow-hidden border-4 border-gold-300 shadow-lg shadow-gold-200/40"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
@@ -92,8 +92,8 @@ export default function Hero() {
           <Image
             src="/daria.jpg"
             alt="Daria"
-            width={224}
-            height={224}
+            width={340}
+            height={340}
             className="w-full h-full object-cover object-top"
             priority
           />
@@ -123,7 +123,7 @@ export default function Hero() {
 
         {/* Divider */}
         <motion.div
-          className="section-divider mb-10"
+          className="section-divider mb-16"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ delay: 1, duration: 0.8 }}

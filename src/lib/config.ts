@@ -18,7 +18,7 @@ export const PARTY_CONFIG = {
 
   // Hero section
   tagline: "You're Invited",
-  subtitle: "A Weekend of Elegance & Celebration",
+  subtitle: "A weekend of celebration with friends & family",
 
   // Weekend itinerary
   itinerary: [
@@ -50,15 +50,11 @@ export const PARTY_CONFIG = {
         "A historic mid-18th century winery in the heart of Bucks County. What started as a hay barn has become one of New Hope's most beloved destinations — featuring wine tastings, live music at The Note (their 250-seat music venue), and The Tavern restaurant & bar in the original barn. OpenTable Diners' Choice award winner. We'll kick off Daria's birthday celebration here with wine, food, and great company.",
       address: "6123 Lower York Road, New Hope, PA 18938",
       images: [
-        "/images/venues/winery/1.jpg",
-        "/images/venues/winery/2.jpg",
-        "/images/venues/winery/3.jpg",
-        "/images/venues/winery/4.jpg",
-        "/images/venues/winery/5.jpg",
-        "/images/venues/winery/6.jpg",
-        "/images/venues/winery/7.jpg",
-        "/images/venues/winery/8.jpg",
-        "/images/venues/winery/9.jpg",
+        "/images/venues/winery/winery1.png",
+        "/images/venues/winery/winery2.png",
+        "/images/venues/winery/winery3.png",
+        "/images/venues/winery/winery4.png",
+        "/images/venues/winery/winery5.png",
       ],
     },
     inn: {
@@ -68,15 +64,15 @@ export const PARTY_CONFIG = {
         "A charming B&B estate on 8.5 acres in Lambertville, NJ — just minutes from New Hope across the Delaware River. The property features a rustic-meets-luxury farmhouse style spread across seven historic buildings (dating to the 1820s), with alpacas on the grounds, hot tubs, a sauna & cold plunge, and gourmet breakfast each morning. This is where we'll continue the party, have dinner, stay the night, and close out the weekend together. Think fireplaces, jacuzzi tubs, lush gardens, and good conversation under the stars.",
       address: "207 Goat Hill Road, Lambertville, NJ 08530",
       images: [
-        "/images/venues/inn/1.jpg",
-        "/images/venues/inn/2.jpg",
-        "/images/venues/inn/3.jpg",
-        "/images/venues/inn/4.jpg",
-        "/images/venues/inn/5.webp",
-        "/images/venues/inn/6.jpeg",
-        "/images/venues/inn/7.jpeg",
-        "/images/venues/inn/8.jpeg",
-        "/images/venues/inn/9.jpeg",
+        "/images/venues/inn/exterior1.png",
+        "/images/venues/inn/exterior2.png",
+        "/images/venues/inn/exterior3.png",
+        "/images/venues/inn/exterior4.png",
+        "/images/venues/inn/exterior5.png",
+        "/images/venues/inn/Interior1.png",
+        "/images/venues/inn/Interior2.png",
+        "/images/venues/inn/interior3.png",
+        "/images/venues/inn/interior4.png",
       ],
     },
   },
