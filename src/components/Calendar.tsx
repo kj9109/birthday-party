@@ -21,6 +21,7 @@ function getFirstDayOfMonth(year: number, month: number) {
 
 export default function Calendar() {
   const partyDate = new Date(PARTY_CONFIG.date + "T00:00:00");
+  const partyDay2 = 3; // May 3rd — Day 2 of the weekend
   const [currentMonth, setCurrentMonth] = useState(partyDate.getMonth());
   const [currentYear, setCurrentYear] = useState(partyDate.getFullYear());
 
@@ -45,10 +46,15 @@ export default function Calendar() {
     }
   };
 
-  const isPartyDay = (day: number) =>
-    day === partyDate.getDate() &&
+  const isPartyMonth =
     currentMonth === partyDate.getMonth() &&
     currentYear === partyDate.getFullYear();
+
+  const isPartyDay1 = (day: number) =>
+    isPartyMonth && day === partyDate.getDate();
+
+  const isPartyDay2 = (day: number) =>
+    isPartyMonth && day === partyDay2;
 
   const isToday = (day: number) => {
     const today = new Date();
@@ -118,26 +124,27 @@ export default function Calendar() {
 
           {/* Days grid */}
           <div className="grid grid-cols-7 gap-1">
-            {/* Empty cells for days before the 1st */}
             {Array.from({ length: firstDay }).map((_, i) => (
               <div key={`empty-${i}`} className="aspect-square" />
             ))}
 
-            {/* Day cells */}
             {Array.from({ length: daysInMonth }).map((_, i) => {
               const day = i + 1;
-              const party = isPartyDay(day);
+              const day1 = isPartyDay1(day);
+              const day2 = isPartyDay2(day);
               const today = isToday(day);
 
               return (
                 <div
                   key={day}
-                  className={`aspect-square flex items-center justify-center rounded-full text-sm font-sans transition-all ${
-                    party
+                  className={`aspect-square flex flex-col items-center justify-center rounded-full text-sm font-sans transition-all ${
+                    day1
                       ? "bg-gradient-to-br from-gold-400 to-gold-500 text-white font-bold shadow-lg shadow-gold-200/50 scale-110"
-                      : today
-                        ? "border-2 border-gold-300 text-gold-600 font-semibold"
-                        : "text-neutral-600 hover:bg-gold-50"
+                      : day2
+                        ? "bg-gold-100 text-gold-700 font-semibold ring-2 ring-gold-300"
+                        : today
+                          ? "border-2 border-gold-300 text-gold-600 font-semibold"
+                          : "text-neutral-600 hover:bg-gold-50"
                   }`}
                 >
                   {day}
@@ -151,7 +158,13 @@ export default function Calendar() {
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-gradient-to-br from-gold-400 to-gold-500" />
               <span className="font-sans text-xs text-neutral-500">
-                Party Day
+                Day 1 — Party Starts
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-gold-100 ring-2 ring-gold-300" />
+              <span className="font-sans text-xs text-neutral-500">
+                Day 2
               </span>
             </div>
             <div className="flex items-center gap-2">
