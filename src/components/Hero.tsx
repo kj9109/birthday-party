@@ -152,9 +152,7 @@ export default function Hero() {
           <div className="flex items-center gap-2">
             <MapPin size={16} className="text-gold-400 flex-shrink-0" />
             <p className="font-sans text-sm font-bold text-neutral-500 tracking-wide">
-              New Hope Winery{" "}
-              <span className="text-gold-400 mx-1">→</span>
-              {" "}Chimney Hill Estate Inn
+              Chimney Hill Estate Inn
             </p>
           </div>
         </motion.div>

@@ -127,7 +127,6 @@ export default function Attendees() {
   const [plusOneName, setPlusOneName] = useState("");
   const [comment, setComment] = useState("");
   const [events, setEvents] = useState({
-    winery: true,
     dinnerParty: true,
     stayingOver: false,
   });
@@ -172,7 +171,7 @@ export default function Attendees() {
     setPhotoPreview(null);
     setPlusOneName("");
     setComment("");
-    setEvents({ winery: true, dinnerParty: true, stayingOver: false });
+    setEvents({ dinnerParty: true, stayingOver: false });
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -307,20 +306,6 @@ export default function Attendees() {
                         <p className="font-sans text-xs font-semibold text-neutral-400 uppercase tracking-wider">
                           Add to your calendar
                         </p>
-                        {submittedEvents.winery && (
-                          <a
-                            href={CALENDAR_LINKS.winery}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-4 py-3 rounded-lg border border-gold-200 hover:border-gold-400 transition-colors text-sm font-sans"
-                          >
-                            <Calendar
-                              size={16}
-                              className="text-gold-400"
-                            />
-                            <span>{EVENT_LABELS.winery}</span>
-                          </a>
-                        )}
                         {submittedEvents.dinnerParty && (
                           <a
                             href={CALENDAR_LINKS.dinnerParty}
@@ -462,7 +447,6 @@ export default function Attendees() {
                       </p>
                       {(
                         [
-                          "winery",
                           "dinnerParty",
                           "stayingOver",
                         ] as const

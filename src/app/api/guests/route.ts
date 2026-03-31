@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       photoUrl: photoUrl || (existingIndex >= 0 ? guests[existingIndex].photoUrl : undefined),
       comment: comment?.trim() || undefined,
       plusOneName: plusOneName?.trim() || undefined,
-      events: events || { winery: true, dinnerParty: true, stayingOver: false },
+      events: events || { dinnerParty: true, stayingOver: false },
       createdAt: existingIndex >= 0 ? guests[existingIndex].createdAt : now,
       updatedAt: now,
     };

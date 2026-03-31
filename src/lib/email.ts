@@ -11,7 +11,6 @@ function useResend(): boolean {
 
 function eventList(events: Guest["events"]): string[] {
   const items: string[] = [];
-  if (events.winery) items.push(EVENT_LABELS.winery);
   if (events.dinnerParty) items.push(EVENT_LABELS.dinnerParty);
   if (events.stayingOver) items.push(EVENT_LABELS.stayingOver);
   return items;
@@ -19,8 +18,6 @@ function eventList(events: Guest["events"]): string[] {
 
 function calendarLinksHtml(events: Guest["events"]): string {
   const links: string[] = [];
-  if (events.winery)
-    links.push(`<a href="${CALENDAR_LINKS.winery}" style="display:inline-block;padding:8px 16px;background:#D4AF37;color:#1a1a1a;border-radius:6px;text-decoration:none;font-weight:600;margin:4px;">Add Winery to Calendar</a>`);
   if (events.dinnerParty)
     links.push(`<a href="${CALENDAR_LINKS.dinnerParty}" style="display:inline-block;padding:8px 16px;background:#D4AF37;color:#1a1a1a;border-radius:6px;text-decoration:none;font-weight:600;margin:4px;">Add Dinner & Party to Calendar</a>`);
   if (events.stayingOver)
@@ -119,7 +116,6 @@ export async function sendGuestConfirmation(guest: Guest): Promise<void> {
         <hr style="border:none;border-top:1px solid #E8D5A3;margin:16px 0;" />
 
         <p style="font-weight:600;margin:0 0 8px;">Here's the plan:</p>
-        <p style="margin:0 0 4px;">🍷 <strong>Winery</strong> (2-5 PM) - New Hope Winery, 6123 Lower York Rd, New Hope, PA</p>
         <p style="margin:0 0 4px;">🍝 <strong>Dinner & Evening Party</strong> - Chimney Hill Estate Inn, 207 Goat Hill Rd, Lambertville, NJ</p>
         <p style="margin:0 0 4px;">🏨 <strong>Staying Over</strong> - Chimney Hill Estate Inn</p>
       </div>
