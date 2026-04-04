@@ -17,7 +17,7 @@ export default function Venues() {
   const otherImages = venue.images.filter((_, i) => i !== featuredIdx);
 
   return (
-    <section id="venue" className="py-24 px-6 bg-white">
+    <section id="venue" className="py-24 px-6">
       <div className="max-w-5xl mx-auto">
         {/* Section header */}
         <motion.div
