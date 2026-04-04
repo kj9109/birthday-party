@@ -245,7 +245,7 @@ export default function Attendees() {
           transition={{ duration: 0.6 }}
         >
           <p className="font-script text-3xl text-gold-400 mb-2">The Guest</p>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-white">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
             List
           </h2>
           <div className="section-divider mt-6" />
@@ -284,7 +284,7 @@ export default function Attendees() {
                       <Check size={28} className="text-rose-400" />
                     )}
                   </div>
-                  <h3 className="font-serif text-xl font-bold text-white mb-1">
+                  <h3 className="font-serif text-xl font-bold text-neutral-900 mb-1">
                     {submittedStatus === "attending"
                       ? "You're on the list! 🎉"
                       : submittedStatus === "maybe"
@@ -354,7 +354,7 @@ export default function Attendees() {
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <UserPlus size={20} className="text-gold-400" />
-                    <h3 className="font-serif text-xl font-bold text-white">
+                    <h3 className="font-serif text-xl font-bold text-neutral-900">
                       RSVP
                     </h3>
                   </div>

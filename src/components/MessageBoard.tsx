@@ -68,7 +68,7 @@ export default function MessageBoard() {
   };
 
   return (
-    <section id="messages" className="py-24 px-6 bg-[#111]">
+    <section id="messages" className="py-24 px-6 bg-white">
       <div className="max-w-2xl mx-auto">
         <motion.div
           className="text-center mb-16"
@@ -80,7 +80,7 @@ export default function MessageBoard() {
           <p className="font-script text-3xl text-gold-400 mb-2">
             Wishes &
           </p>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-white">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
             Messages
           </h2>
           <div className="section-divider mt-6" />
@@ -107,7 +107,7 @@ export default function MessageBoard() {
               {messages.map((msg) => (
                 <motion.div
                   key={msg.id}
-                  className="bg-white/5 rounded-xl p-4 border border-white/10"
+                  className="bg-neutral-50 rounded-xl p-4 border border-neutral-100"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
@@ -119,7 +119,7 @@ export default function MessageBoard() {
                           {msg.name[0].toUpperCase()}
                         </span>
                       </div>
-                      <span className="font-sans text-sm font-semibold text-white">
+                      <span className="font-sans text-sm font-semibold text-neutral-800">
                         {msg.name}
                       </span>
                     </div>
@@ -139,7 +139,7 @@ export default function MessageBoard() {
           {/* Input form */}
           <form
             onSubmit={handleSubmit}
-            className="border-t border-white/10 p-4"
+            className="border-t border-gold-100 p-4"
           >
             <div className="flex gap-3 mb-3">
               <input

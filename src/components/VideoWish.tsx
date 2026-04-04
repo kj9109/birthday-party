@@ -118,7 +118,7 @@ export default function VideoWish() {
   return (
     <section
       id="video"
-      className="py-24 px-6 bg-gradient-to-b from-[#0A0A0A] via-wine-900/20 to-[#0A0A0A]"
+      className="py-24 px-6 bg-gradient-to-b from-[#FAFAF8] via-wine-50/40 to-[#FAFAF8]"
     >
       <div className="max-w-2xl mx-auto">
         <motion.div
@@ -129,7 +129,7 @@ export default function VideoWish() {
           transition={{ duration: 0.6 }}
         >
           <p className="font-script text-3xl text-gold-400 mb-2">Send a</p>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-white">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
             Birthday Wish
           </h2>
           <div className="section-divider mt-6" />
@@ -150,7 +150,7 @@ export default function VideoWish() {
               fill="currentColor"
             />
             <div>
-              <h3 className="font-serif text-lg font-bold text-white mb-2">
+              <h3 className="font-serif text-lg font-bold text-neutral-900 mb-2">
                 Record a video for Daria
               </h3>
               <p className="font-sans text-sm text-neutral-600 leading-relaxed">
@@ -171,7 +171,7 @@ export default function VideoWish() {
                 exit={{ opacity: 0, scale: 0.9 }}
               >
                 <CheckCircle size={56} className="text-emerald-500 mb-4" />
-                <p className="font-serif text-xl font-bold text-white mb-1">
+                <p className="font-serif text-xl font-bold text-neutral-900 mb-1">
                   Thank you!
                 </p>
                 <p className="font-sans text-sm text-neutral-500 text-center mb-6">

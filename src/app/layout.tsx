@@ -39,7 +39,7 @@ export default function RootLayout({
       lang="en"
       className={`${playfair.variable} ${montserrat.variable} ${greatVibes.variable}`}
     >
-      <body className="font-sans text-neutral-800 antialiased">
+      <body className="font-sans text-neutral-900 antialiased bg-[#FAFAF8]">
         {children}
       </body>
     </html>

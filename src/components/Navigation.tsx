@@ -27,7 +27,7 @@ export default function Navigation() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-black/90 backdrop-blur-md shadow-lg border-b border-gold-400/10"
+          ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-gold-100"
           : "bg-transparent"
       }`}
     >
@@ -45,7 +45,7 @@ export default function Navigation() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-sans font-medium tracking-wide text-neutral-400 hover:text-gold-400 transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1.5px] after:bg-gold-400 after:transition-all hover:after:w-full"
+              className={`text-sm font-sans font-medium tracking-wide transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1.5px] after:bg-gold-400 after:transition-all hover:after:w-full ${scrolled ? 'text-neutral-600 hover:text-gold-600' : 'text-white/70 hover:text-gold-400'}`}
             >
               {link.label}
             </a>
@@ -55,7 +55,7 @@ export default function Navigation() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-neutral-400 hover:text-gold-400 transition-colors"
+          className={`md:hidden transition-colors ${scrolled ? 'text-neutral-600 hover:text-gold-600' : 'text-white/70 hover:text-gold-400'}`}
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -63,14 +63,14 @@ export default function Navigation() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-black/95 backdrop-blur-md border-t border-gold-400/10">
+        <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-gold-100">
           <div className="px-6 py-4 flex flex-col gap-4">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="text-sm font-sans font-medium tracking-wide text-neutral-400 hover:text-gold-400 transition-colors py-2"
+                className="text-sm font-sans font-medium tracking-wide text-neutral-600 hover:text-gold-600 transition-colors py-2"
               >
                 {link.label}
               </a>

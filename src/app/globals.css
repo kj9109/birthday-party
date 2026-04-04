@@ -8,8 +8,7 @@ html {
 }
 
 body {
-  background-color: #0A0A0A;
-  color: #F5F5F5;
+  background-color: #FAFAF8;
 }
 
 /* Custom scrollbar */
@@ -18,7 +17,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1A1A1A;
+  background: #F5F5F0;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -62,34 +61,25 @@ body {
   max-width: 300px;
 }
 
-/* Elegant card - dark theme */
+/* Elegant card */
 .elegant-card {
-  background: #141414;
-  border: 1px solid #2A2A2A;
+  background: white;
+  border: 1px solid #F0E6C8;
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 24px rgba(212, 175, 55, 0.08);
   transition: all 0.3s ease;
 }
 
 .elegant-card:hover {
-  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
-  border-color: #3A3A3A;
-}
-
-/* Light card variant for forms */
-.elegant-card-light {
-  background: #1A1A1A;
-  border: 1px solid #333;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15);
+  border-color: #D4AF37;
 }
 
 /* Gold button */
 .gold-button {
   background: linear-gradient(135deg, #D4AF37 0%, #E8D5A3 50%, #D4AF37 100%);
   background-size: 200% 200%;
-  color: #0A0A0A;
+  color: #1A1A1A;
   font-weight: 600;
   padding: 12px 32px;
   border-radius: 8px;
@@ -108,25 +98,6 @@ body {
   transform: translateY(0);
 }
 
-/* Wine button */
-.wine-button {
-  background: linear-gradient(135deg, #722F37 0%, #9B2335 50%, #722F37 100%);
-  background-size: 200% 200%;
-  color: #F5F5F5;
-  font-weight: 600;
-  padding: 12px 32px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-}
-
-.wine-button:hover {
-  background-position: 100% 100%;
-  box-shadow: 0 4px 16px rgba(114, 47, 55, 0.5);
-  transform: translateY(-1px);
-}
-
 /* Gold checkbox */
 .gold-checkbox {
   appearance: none;
@@ -138,7 +109,6 @@ body {
   position: relative;
   transition: all 0.2s ease;
   flex-shrink: 0;
-  background: transparent;
 }
 
 .gold-checkbox:checked {
@@ -151,20 +121,19 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #0A0A0A;
+  color: #1A1A1A;
   font-size: 12px;
   font-weight: bold;
 }
 
-/* Gold input - dark theme */
+/* Gold input focus */
 .gold-input {
-  border: 1px solid #333;
+  border: 1px solid #E0D5B8;
   border-radius: 8px;
   padding: 12px 16px;
   outline: none;
   transition: all 0.3s ease;
-  background: #1A1A1A;
-  color: #F5F5F5;
+  background: white;
   width: 100%;
   font-family: var(--font-montserrat), system-ui, sans-serif;
 }
@@ -175,7 +144,7 @@ body {
 }
 
 .gold-input::placeholder {
-  color: #666;
+  color: #B0A890;
 }
 
 /* Timeline styles */
@@ -193,7 +162,7 @@ body {
   height: 12px;
   background: #D4AF37;
   border-radius: 50%;
-  border: 3px solid #0A0A0A;
+  border: 3px solid white;
   box-shadow: 0 0 0 2px #D4AF37;
   position: relative;
   z-index: 1;
@@ -221,4 +190,9 @@ body {
   bottom: -1px;
   right: -1px;
   border-width: 0 2px 2px 0;
+}
+
+/* Dark hero section */
+.hero-dark {
+  background: #0A0A0A;
 }
