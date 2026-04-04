@@ -61,7 +61,7 @@ export default function PrivateQuestions() {
             transition={{ duration: 0.6 }}
           >
             <p className="font-script text-3xl text-gold-400 mb-2">Have a</p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-white">
               Question?
             </h2>
             <div className="section-divider mt-6" />
@@ -77,7 +77,7 @@ export default function PrivateQuestions() {
         >
           <div className="flex items-center gap-3 mb-2">
             <Lock size={18} className="text-gold-400" />
-            <h3 className="font-serif text-lg font-bold text-neutral-900">
+            <h3 className="font-serif text-lg font-bold text-white">
               Private Submission
             </h3>
           </div>

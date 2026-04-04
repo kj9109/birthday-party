@@ -9,7 +9,7 @@ export default function Venues() {
   const venue = PARTY_CONFIG.venue_detail;
 
   return (
-    <section id="venue" className="py-24 px-6 bg-white">
+    <section id="venue" className="py-24 px-6 bg-[#111]">
       <div className="max-w-3xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -20,10 +20,10 @@ export default function Venues() {
           transition={{ duration: 0.6 }}
         >
           <p className="font-script text-3xl text-gold-400 mb-2">The</p>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-white">
             Venue
           </h2>
-          <div className="section-divider mt-6" />
+          <div className="section-divider-wine mt-6" />
         </motion.div>
 
         <motion.div
@@ -42,13 +42,13 @@ export default function Venues() {
           <div className="p-6">
             <div className="flex items-center gap-2.5 mb-1">
               <Home size={20} className="text-gold-400 flex-shrink-0" />
-              <h3 className="font-serif text-xl font-bold text-neutral-900">
+              <h3 className="font-serif text-xl font-bold text-white">
                 {venue.name}
               </h3>
             </div>
 
             <div className="flex items-center gap-4 mb-4">
-              <div className="flex items-center gap-1.5 text-gold-500">
+              <div className="flex items-center gap-1.5 text-wine-400">
                 <Clock size={14} />
                 <span className="font-sans text-xs font-semibold tracking-wide">
                   {venue.timeRange}
@@ -56,11 +56,11 @@ export default function Venues() {
               </div>
             </div>
 
-            <p className="font-sans text-sm text-neutral-600 leading-relaxed mb-5">
+            <p className="font-sans text-sm text-neutral-400 leading-relaxed mb-5">
               {venue.description}
             </p>
 
-            <div className="flex items-start gap-2 pt-4 border-t border-gold-100">
+            <div className="flex items-start gap-2 pt-4 border-t border-white/10">
               <MapPin
                 size={15}
                 className="text-gold-400 mt-0.5 flex-shrink-0"

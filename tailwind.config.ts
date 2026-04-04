@@ -21,6 +21,18 @@ const config: Config = {
           800: "#604E11",
           900: "#342B09",
         },
+        wine: {
+          50: "#FDF2F3",
+          100: "#F8D7DA",
+          200: "#F0ADB4",
+          300: "#E27D89",
+          400: "#C94C5A",
+          500: "#9B2335",
+          600: "#722F37",
+          700: "#5C1A23",
+          800: "#3D1118",
+          900: "#220A0E",
+        },
       },
       fontFamily: {
         serif: ["var(--font-playfair)", "Georgia", "serif"],

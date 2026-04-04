@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, MapPin, Clock } from "lucide-react";
+import { ChevronDown, MapPin } from "lucide-react";
 import Image from "next/image";
 import { PARTY_CONFIG } from "@/lib/config";
 
@@ -15,7 +15,6 @@ function useCountdown(targetDate: string) {
   });
 
   useEffect(() => {
-    // May 2, 2026 at 2:00 PM ET (UTC-4 in summer / EDT)
     const target = new Date(`${targetDate}T14:00:00-04:00`).getTime();
 
     const update = () => {
@@ -51,20 +50,20 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 md:pt-0 overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 md:pt-0 overflow-hidden bg-black"
     >
-      {/* Background decorations */}
+      {/* Background decorations - dark moody glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gold-100/30 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-gold-100/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-50/40 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-wine-700/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-gold-900/30 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-wine-800/15 rounded-full blur-3xl" />
       </div>
 
       {/* Corner decorations */}
-      <div className="absolute top-8 left-8 w-20 h-20 border-t-2 border-l-2 border-gold-300/50 hidden md:block" />
-      <div className="absolute top-8 right-8 w-20 h-20 border-t-2 border-r-2 border-gold-300/50 hidden md:block" />
-      <div className="absolute bottom-8 left-8 w-20 h-20 border-b-2 border-l-2 border-gold-300/50 hidden md:block" />
-      <div className="absolute bottom-8 right-8 w-20 h-20 border-b-2 border-r-2 border-gold-300/50 hidden md:block" />
+      <div className="absolute top-8 left-8 w-20 h-20 border-t-2 border-l-2 border-gold-400/30 hidden md:block" />
+      <div className="absolute top-8 right-8 w-20 h-20 border-t-2 border-r-2 border-gold-400/30 hidden md:block" />
+      <div className="absolute bottom-8 left-8 w-20 h-20 border-b-2 border-l-2 border-gold-400/30 hidden md:block" />
+      <div className="absolute bottom-8 right-8 w-20 h-20 border-b-2 border-r-2 border-gold-400/30 hidden md:block" />
 
       <motion.div
         className="relative text-center max-w-3xl"
@@ -84,7 +83,7 @@ export default function Hero() {
 
         {/* Photo */}
         <motion.div
-          className="mx-auto mb-6 w-52 h-52 md:w-80 md:h-80 lg:w-[340px] lg:h-[340px] rounded-full overflow-hidden border-4 border-gold-300 shadow-lg shadow-gold-200/40"
+          className="mx-auto mb-6 w-52 h-52 md:w-80 md:h-80 lg:w-[340px] lg:h-[340px] rounded-full overflow-hidden border-4 border-gold-400/60 shadow-2xl shadow-wine-700/30"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
@@ -101,7 +100,7 @@ export default function Hero() {
 
         {/* Name */}
         <motion.h1
-          className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-neutral-900 mb-4 leading-tight"
+          className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-2 leading-tight"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
@@ -113,7 +112,7 @@ export default function Hero() {
 
         {/* Subtitle */}
         <motion.p
-          className="font-sans text-lg md:text-xl text-neutral-500 tracking-widest uppercase mb-10"
+          className="font-sans text-lg md:text-xl text-wine-300 tracking-widest uppercase mb-10 italic"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
@@ -123,7 +122,7 @@ export default function Hero() {
 
         {/* Divider */}
         <motion.div
-          className="section-divider mb-16"
+          className="section-divider-wine mb-16"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ delay: 1, duration: 0.8 }}
@@ -136,22 +135,22 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.6 }}
         >
-          <p className="font-sans text-base md:text-lg font-bold tracking-wide text-neutral-800">
+          <p className="font-sans text-base md:text-lg font-bold tracking-wide text-white">
             {formattedDate}
           </p>
-          <p className="font-sans text-sm md:text-base font-semibold text-neutral-500 tracking-wide">
+          <p className="font-sans text-sm md:text-base font-semibold text-gold-400/80 tracking-wide">
             {PARTY_CONFIG.endTime}
           </p>
 
           <div className="flex items-center gap-2 my-1">
-            <div className="w-6 h-[1px] bg-gold-300" />
+            <div className="w-6 h-[1px] bg-wine-500" />
             <div className="w-1.5 h-1.5 rounded-full bg-gold-400" />
-            <div className="w-6 h-[1px] bg-gold-300" />
+            <div className="w-6 h-[1px] bg-wine-500" />
           </div>
 
           <div className="flex items-center gap-2">
             <MapPin size={16} className="text-gold-400 flex-shrink-0" />
-            <p className="font-sans text-sm font-bold text-neutral-500 tracking-wide">
+            <p className="font-sans text-sm font-bold text-neutral-400 tracking-wide">
               Chimney Hill Estate Inn
             </p>
           </div>
@@ -171,12 +170,12 @@ export default function Hero() {
             { value: countdown.seconds, label: "Seconds" },
           ].map((item) => (
             <div key={item.label} className="text-center">
-              <div className="elegant-card p-3 md:p-5 mb-2">
-                <span className="font-serif text-3xl md:text-4xl font-bold text-neutral-900">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-3 md:p-5 mb-2 backdrop-blur-sm">
+                <span className="font-serif text-3xl md:text-4xl font-bold text-white">
                   {String(item.value).padStart(2, "0")}
                 </span>
               </div>
-              <span className="font-sans text-xs tracking-widest uppercase text-neutral-400">
+              <span className="font-sans text-xs tracking-widest uppercase text-gold-400/60">
                 {item.label}
               </span>
             </div>

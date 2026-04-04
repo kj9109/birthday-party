@@ -17,8 +17,8 @@ export const PARTY_CONFIG = {
   address: "Lambertville, NJ",
 
   // Hero section
-  tagline: "You're Invited",
-  subtitle: "A weekend of celebration with friends & family",
+  tagline: "Like Fine Wine",
+  subtitle: "She only gets better with time",
 
   // Weekend itinerary
   itinerary: [
@@ -26,8 +26,10 @@ export const PARTY_CONFIG = {
       day: "Saturday",
       date: "May 2",
       events: [
-        { time: "2:00 PM", title: "Party Begins at Chimney Hill Estate Inn", description: "Settle in, explore the grounds" },
-        { time: "7:00 PM", title: "Dinner at the Inn", description: "Catered Italian Classics" },
+        { time: "2:00 PM", title: "Arrive at Chimney Hill Estate Inn", description: "Settle in, explore the grounds, and raise a glass" },
+        { time: "3:00 PM", title: "Wine & Live Music", description: "Curated wines, a live band, and good company on the estate" },
+        { time: "7:00 PM", title: "Dinner at the Inn", description: "Catered Italian Classics, paired with wine" },
+        { time: "9:00 PM", title: "Music & Dancing", description: "The band plays on into the evening" },
       ],
     },
     {

@@ -5,7 +5,7 @@ import { PARTY_CONFIG } from "@/lib/config";
 
 export default function Itinerary() {
   return (
-    <section id="schedule" className="py-24 px-6">
+    <section id="schedule" className="py-24 px-6 bg-[#0A0A0A]">
       <div className="max-w-3xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -18,10 +18,10 @@ export default function Itinerary() {
           <p className="font-script text-3xl text-gold-400 mb-2">
             The Weekend
           </p>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-white">
             Itinerary
           </h2>
-          <div className="section-divider mt-6" />
+          <div className="section-divider-wine mt-6" />
         </motion.div>
 
         {/* Weekend timeline */}
@@ -36,23 +36,23 @@ export default function Itinerary() {
             >
               {/* Day header */}
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-500 flex items-center justify-center text-white font-serif font-bold text-sm shadow-md shadow-gold-200/40">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-wine-600 to-wine-700 flex items-center justify-center text-white font-serif font-bold text-sm shadow-md shadow-wine-900/40">
                   {dayIndex + 1}
                 </div>
                 <div>
-                  <h3 className="font-serif text-2xl font-bold text-neutral-900">
+                  <h3 className="font-serif text-2xl font-bold text-white">
                     {dayGroup.day}
                   </h3>
-                  <p className="font-sans text-sm text-gold-500 tracking-wide">
+                  <p className="font-sans text-sm text-gold-400/80 tracking-wide">
                     {dayGroup.date}
                   </p>
                 </div>
-                <div className="flex-1 h-[1px] bg-gradient-to-r from-gold-200 to-transparent" />
+                <div className="flex-1 h-[1px] bg-gradient-to-r from-wine-700/50 to-transparent" />
               </div>
 
               {/* Events */}
               <div className="relative pl-12">
-                <div className="absolute left-[19px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-gold-300 to-gold-100" />
+                <div className="absolute left-[19px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-gold-400/60 via-wine-600/40 to-gold-400/60" />
 
                 <div className="space-y-5">
                   {dayGroup.events.map((event, eventIndex) => (
@@ -67,15 +67,15 @@ export default function Itinerary() {
                       <div className="absolute -left-[29px] top-1.5 timeline-dot" />
                       <div className="elegant-card flex-1 p-5">
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-1.5">
-                          <span className="font-sans text-sm font-semibold text-gold-500 tracking-wider">
+                          <span className="font-sans text-sm font-semibold text-wine-400 tracking-wider">
                             {event.time}
                           </span>
-                          <div className="hidden sm:block w-6 h-[1px] bg-gold-200" />
-                          <h4 className="font-serif text-lg font-bold text-neutral-900">
+                          <div className="hidden sm:block w-6 h-[1px] bg-wine-700/50" />
+                          <h4 className="font-serif text-lg font-bold text-white">
                             {event.title}
                           </h4>
                         </div>
-                        <p className="font-sans text-sm text-neutral-500 leading-relaxed">
+                        <p className="font-sans text-sm text-neutral-400 leading-relaxed">
                           {event.description}
                         </p>
                       </div>
