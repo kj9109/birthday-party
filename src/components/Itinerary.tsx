@@ -33,9 +33,6 @@ export default function Itinerary() {
             >
               {/* Day header */}
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-wine-600 to-wine-700 flex items-center justify-center text-white font-serif font-bold text-sm shadow-md">
-                  {dayIndex + 1}
-                </div>
                 <div>
                   <h3 className="font-serif text-2xl font-bold text-neutral-900">
                     {dayGroup.day}
