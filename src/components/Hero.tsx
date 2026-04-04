@@ -50,13 +50,18 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 md:pt-0 overflow-hidden bg-black"
+      className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 md:pt-0 overflow-hidden"
     >
-      {/* Background decorations - dark moody glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-wine-700/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-gold-900/30 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-wine-800/15 rounded-full blur-3xl" />
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/wine-bg.avif"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-white/70" />
       </div>
 
       {/* Corner decorations */}
@@ -78,10 +83,8 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          <p className="font-script text-4xl md:text-5xl text-gold-400 flex items-center gap-2">
-            <span>🍷</span>
+          <p className="font-script text-4xl md:text-5xl text-gold-600">
             {PARTY_CONFIG.tagline}
-            <span>🍷</span>
           </p>
           {/* Calligraphic swash underline */}
           <svg viewBox="0 0 200 12" className="w-48 md:w-64 mt-1" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +108,7 @@ export default function Hero() {
 
         {/* Photo */}
         <motion.div
-          className="mx-auto mb-6 w-52 h-52 md:w-80 md:h-80 lg:w-[340px] lg:h-[340px] rounded-full overflow-hidden border-4 border-gold-400/60 shadow-2xl shadow-wine-700/30"
+          className="mx-auto mb-6 w-52 h-52 md:w-80 md:h-80 lg:w-[340px] lg:h-[340px] rounded-full overflow-hidden border-4 border-gold-400/60 shadow-2xl shadow-neutral-900/20"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
@@ -122,7 +125,7 @@ export default function Hero() {
 
         {/* Name */}
         <motion.h1
-          className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-2 leading-tight"
+          className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-neutral-900 mb-2 leading-tight"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
@@ -134,7 +137,7 @@ export default function Hero() {
 
         {/* Subtitle */}
         <motion.p
-          className="font-sans text-lg md:text-xl text-wine-300 tracking-widest uppercase mb-10"
+          className="font-sans text-lg md:text-xl text-wine-600 tracking-widest uppercase mb-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
@@ -157,10 +160,10 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.6 }}
         >
-          <p className="font-sans text-base md:text-lg font-bold tracking-wide text-white">
+          <p className="font-sans text-base md:text-lg font-bold tracking-wide text-neutral-900">
             {formattedDate}
           </p>
-          <p className="font-sans text-sm md:text-base font-semibold text-gold-400/80 tracking-wide">
+          <p className="font-sans text-sm md:text-base font-semibold text-gold-600 tracking-wide">
             {PARTY_CONFIG.endTime}
           </p>
 
@@ -172,8 +175,8 @@ export default function Hero() {
 
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-2">
-              <MapPin size={16} className="text-gold-400 flex-shrink-0" />
-              <p className="font-sans text-sm font-bold text-neutral-400 tracking-wide">
+              <MapPin size={16} className="text-gold-500 flex-shrink-0" />
+              <p className="font-sans text-sm font-bold text-neutral-700 tracking-wide">
                 Chimney Hill Estate Inn
               </p>
             </div>
@@ -197,12 +200,12 @@ export default function Hero() {
             { value: countdown.seconds, label: "Seconds" },
           ].map((item) => (
             <div key={item.label} className="text-center">
-              <div className="bg-white/5 border border-white/10 rounded-xl p-3 md:p-5 mb-2 backdrop-blur-sm">
-                <span className="font-serif text-3xl md:text-4xl font-bold text-white">
+              <div className="bg-white/60 border border-neutral-200/60 rounded-xl p-3 md:p-5 mb-2 backdrop-blur-sm shadow-sm">
+                <span className="font-serif text-3xl md:text-4xl font-bold text-neutral-900">
                   {String(item.value).padStart(2, "0")}
                 </span>
               </div>
-              <span className="font-sans text-xs tracking-widest uppercase text-gold-400/60">
+              <span className="font-sans text-xs tracking-widest uppercase text-neutral-500">
                 {item.label}
               </span>
             </div>
@@ -213,7 +216,7 @@ export default function Hero() {
       {/* Scroll indicator */}
       <motion.a
         href="#schedule"
-        className="absolute bottom-8 text-gold-400 animate-float"
+        className="absolute bottom-8 text-gold-500 animate-float"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 0.8 }}

@@ -8,13 +8,11 @@ import {
   Camera,
   User,
   Check,
-  Calendar,
   PartyPopper,
 } from "lucide-react";
 import Image from "next/image";
 import { PARTY_CONFIG } from "@/lib/config";
 import type { Guest } from "@/lib/types";
-import { CALENDAR_LINKS, EVENT_LABELS } from "@/lib/types";
 
 const statusConfig = {
   attending: {
@@ -125,14 +123,11 @@ export default function Attendees() {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [plusOneName, setPlusOneName] = useState("");
+  const [bringingPlusOne, setBringingPlusOne] = useState<boolean | null>(null);
+  const [stayingOvernight, setStayingOvernight] = useState<boolean | null>(null);
   const [comment, setComment] = useState("");
-  const [events, setEvents] = useState({
-    dinnerParty: true,
-    stayingOver: false,
-  });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [submittedEvents, setSubmittedEvents] = useState(events);
   const [submittedStatus, setSubmittedStatus] = useState(status);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -158,10 +153,6 @@ export default function Attendees() {
     setPhotoPreview(URL.createObjectURL(file));
   };
 
-  const toggleEvent = (key: keyof typeof events) => {
-    setEvents((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
   const resetForm = () => {
     setName("");
     setEmail("");
@@ -170,14 +161,15 @@ export default function Attendees() {
     setPhotoFile(null);
     setPhotoPreview(null);
     setPlusOneName("");
+    setBringingPlusOne(null);
+    setStayingOvernight(null);
     setComment("");
-    setEvents({ dinnerParty: true, stayingOver: false });
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim()) return;
+    if (!name.trim() || !email.trim() || bringingPlusOne === null) return;
 
     setLoading(true);
     try {
@@ -198,13 +190,13 @@ export default function Attendees() {
           status,
           photoUrl,
           comment: comment.trim() || undefined,
-          plusOneName: plusOneName.trim() || undefined,
-          events,
+          plusOneName: bringingPlusOne ? (plusOneName.trim() || `${name.trim()}'s +1`) : undefined,
+          stayingOvernight: stayingOvernight ?? false,
+          events: { dinnerParty: true, stayingOver: stayingOvernight ?? false },
         }),
       });
 
       if (res.ok) {
-        setSubmittedEvents({ ...events });
         setSubmittedStatus(status);
         setSubmitted(true);
         resetForm();
@@ -244,9 +236,8 @@ export default function Attendees() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <p className="font-script text-3xl text-gold-400 mb-2">The Guest</p>
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
-            List
+            Guest List
           </h2>
           <div className="section-divider mt-6" />
           <p className="mt-4 font-sans text-sm text-neutral-500">
@@ -299,42 +290,8 @@ export default function Attendees() {
                         : "Maybe next time. We'll be thinking of you!"}
                   </p>
 
-                  {/* Calendar links for checked events */}
-                  {submittedStatus !== "declined" &&
-                    Object.values(submittedEvents).some(Boolean) && (
-                      <div className="w-full space-y-2 mb-6">
-                        <p className="font-sans text-xs font-semibold text-neutral-400 uppercase tracking-wider">
-                          Add to your calendar
-                        </p>
-                        {submittedEvents.dinnerParty && (
-                          <a
-                            href={CALENDAR_LINKS.dinnerParty}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-4 py-3 rounded-lg border border-gold-200 hover:border-gold-400 transition-colors text-sm font-sans"
-                          >
-                            <Calendar
-                              size={16}
-                              className="text-gold-400"
-                            />
-                            <span>{EVENT_LABELS.dinnerParty}</span>
-                          </a>
-                        )}
-                        {submittedEvents.stayingOver && (
-                          <a
-                            href={CALENDAR_LINKS.stayingOver}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-4 py-3 rounded-lg border border-gold-200 hover:border-gold-400 transition-colors text-sm font-sans"
-                          >
-                            <Calendar
-                              size={16}
-                              className="text-gold-400"
-                            />
-                            <span>{EVENT_LABELS.stayingOver}</span>
-                          </a>
-                        )}
-                      </div>
+                  {submittedStatus !== "declined" && (
+                      <div className="w-full mb-6"></div>
                     )}
 
                   <button
@@ -439,44 +396,62 @@ export default function Attendees() {
                     )}
                   </div>
 
-                  {/* Event checkboxes */}
+                  {/* Bringing a +1? (required yes/no) */}
+                  <div className="space-y-2">
+                    <p className="font-sans text-xs font-semibold text-neutral-500 uppercase tracking-wider">
+                      Bringing a +1? *
+                    </p>
+                    <div className="flex gap-2">
+                      {([true, false] as const).map((val) => (
+                        <button
+                          key={String(val)}
+                          type="button"
+                          onClick={() => { setBringingPlusOne(val); if (!val) setPlusOneName(""); }}
+                          className={`flex-1 py-2.5 rounded-lg border-2 text-sm font-sans font-medium transition-all ${
+                            bringingPlusOne === val
+                              ? "border-gold-400 bg-gold-50 text-gold-700"
+                              : "border-neutral-200 text-neutral-400 hover:border-neutral-300"
+                          }`}
+                        >
+                          {val ? "Yes" : "No"}
+                        </button>
+                      ))}
+                    </div>
+                    {bringingPlusOne && (
+                      <input
+                        type="text"
+                        value={plusOneName}
+                        onChange={(e) => setPlusOneName(e.target.value)}
+                        placeholder="Their name (optional)"
+                        className="gold-input"
+                      />
+                    )}
+                  </div>
+
+                  {/* Staying overnight? */}
                   {status !== "declined" && (
                     <div className="space-y-2">
                       <p className="font-sans text-xs font-semibold text-neutral-500 uppercase tracking-wider">
-                        I&apos;ll be there for:
+                        Do you think you&apos;ll need to spend the night?
                       </p>
-                      {(
-                        [
-                          "dinnerParty",
-                          "stayingOver",
-                        ] as const
-                      ).map((key) => (
-                        <label
-                          key={key}
-                          className="flex items-center gap-3 cursor-pointer group"
-                        >
-                          <input
-                            type="checkbox"
-                            checked={events[key]}
-                            onChange={() => toggleEvent(key)}
-                            className="gold-checkbox"
-                          />
-                          <span className="font-sans text-sm text-neutral-700 group-hover:text-white transition-colors">
-                            {EVENT_LABELS[key]}
-                          </span>
-                        </label>
-                      ))}
+                      <div className="flex gap-2">
+                        {([true, false] as const).map((val) => (
+                          <button
+                            key={String(val)}
+                            type="button"
+                            onClick={() => setStayingOvernight(val)}
+                            className={`flex-1 py-2.5 rounded-lg border-2 text-sm font-sans font-medium transition-all ${
+                              stayingOvernight === val
+                                ? "border-gold-400 bg-gold-50 text-gold-700"
+                                : "border-neutral-200 text-neutral-400 hover:border-neutral-300"
+                            }`}
+                          >
+                            {val ? "Yes" : "No"}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   )}
-
-                  {/* Plus-one */}
-                  <input
-                    type="text"
-                    value={plusOneName}
-                    onChange={(e) => setPlusOneName(e.target.value)}
-                    placeholder="Bringing a +1? Their name (optional)"
-                    className="gold-input"
-                  />
 
                   {/* Comment */}
                   <textarea
@@ -490,7 +465,7 @@ export default function Attendees() {
                   {/* Submit */}
                   <button
                     type="submit"
-                    disabled={loading || !name.trim() || !email.trim()}
+                    disabled={loading || !name.trim() || !email.trim() || bringingPlusOne === null}
                     className="gold-button w-full disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? "Submitting..." : "Submit RSVP"}

@@ -45,7 +45,7 @@ export default function Navigation() {
             <a
               key={link.href}
               href={link.href}
-              className={`text-sm font-sans font-medium tracking-wide transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1.5px] after:bg-gold-400 after:transition-all hover:after:w-full ${scrolled ? 'text-neutral-600 hover:text-gold-600' : 'text-white/70 hover:text-gold-400'}`}
+              className="text-sm font-sans font-medium tracking-wide text-neutral-600 hover:text-gold-600 transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1.5px] after:bg-gold-400 after:transition-all hover:after:w-full"
             >
               {link.label}
             </a>
@@ -55,7 +55,7 @@ export default function Navigation() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className={`md:hidden transition-colors ${scrolled ? 'text-neutral-600 hover:text-gold-600' : 'text-white/70 hover:text-gold-400'}`}
+          className="md:hidden text-neutral-600 hover:text-gold-600 transition-colors"
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
