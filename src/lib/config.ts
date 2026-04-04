@@ -42,7 +42,7 @@ export const PARTY_CONFIG = {
     name: "Chimney Hill Estate Inn",
     timeRange: "2:00 PM – whenever!",
     description:
-      "A charming B&B estate on 8.5 acres in Lambertville, NJ. The property features a rustic-meets-luxury farmhouse style spread across seven historic buildings (dating to the 1820s), with alpacas on the grounds, hot tubs, a sauna & cold plunge, and gourmet breakfast each morning. This is where we'll celebrate, have dinner, stay the night, and close out the weekend together. Think fireplaces, jacuzzi tubs, lush gardens, and good conversation under the stars.",
+      "A charming B&B estate on 8.5 acres in Lambertville, NJ. Perfect for hosting parties and special occasions. The property features a rustic-meets-luxury farmhouse, and seven historic buildings (dating to the 1820s), with an alpaca and chicken area, hot tubs, sauna, greenhouse, firepit/fireplaces, a baby grand piano, and much more.",
     address: "207 Goat Hill Road, Lambertville, NJ 08530",
     images: [
       "/images/venues/inn/1.png",
