@@ -20,27 +20,22 @@ export const PARTY_CONFIG = {
   tagline: "Like Fine Wine",
   subtitle: "Surprise Party",
 
-  // Weekend itinerary
+  // Itinerary
   itinerary: [
     {
       day: "Saturday",
       date: "May 2",
       events: [
-        { time: "2:00 PM", title: "Arrive at Chimney Hill Estate Inn", description: "Settle in, explore the grounds, and raise a glass" },
-        { time: "3:00 PM", title: "Wine & Live Music", description: "Curated wines, a live band, and good company on the estate" },
-        { time: "7:00 PM", title: "Dinner at the Inn", description: "Catered Italian Classics, paired with wine" },
-        { time: "9:00 PM", title: "Music & Dancing", description: "The band plays on into the evening" },
-      ],
-    },
-    {
-      day: "Sunday",
-      date: "May 3",
-      events: [
-        { time: "8:00 AM", title: "Breakfast at the Inn", description: "Breakfast to start the morning, for those who stayed over" },
-        { time: "Afternoon", title: "Party Concludes", description: "Until next time!" },
+        { time: "2:00 PM", title: "Party Starts", description: "Daria arrives at 2:30, and will be surprised to see everyone" },
+        { time: "3:00 PM", title: "Apps, Drinks, Games, and Live Music", description: "After Daria arrives, relax and have fun" },
+        { time: "7:00 PM", title: "Dinner", description: "Plenty of food and drink. Catered Italian classics." },
+        { time: "9:00 PM", title: "Evening Festivities", description: "Fire, sauna, hot tub outside; singing, music, nightcaps inside" },
       ],
     },
   ],
+
+  // Overnight note (shown below itinerary)
+  overnightNote: "We have the property booked until 11:00 AM Sunday morning. Guests who cannot get home safely or would prefer to stay at the property can be accommodated \u2014 up to 8 rooms are available. Breakfast and coffee will be available in the morning.",
 
   // Venue
   venue_detail: {

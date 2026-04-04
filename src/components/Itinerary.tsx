@@ -15,9 +15,6 @@ export default function Itinerary() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <p className="font-script text-3xl text-gold-400 mb-2">
-            The Weekend
-          </p>
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
             Itinerary
           </h2>
@@ -86,6 +83,21 @@ export default function Itinerary() {
             </motion.div>
           ))}
         </div>
+
+        {/* Overnight note */}
+        {PARTY_CONFIG.overnightNote && (
+          <motion.div
+            className="mt-10 px-6 py-5 rounded-xl border border-gold-200/60 bg-gold-50/30"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <p className="font-sans text-sm text-neutral-600 leading-relaxed italic">
+              {PARTY_CONFIG.overnightNote}
+            </p>
+          </motion.div>
+        )}
       </div>
     </section>
   );
