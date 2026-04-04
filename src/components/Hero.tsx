@@ -79,11 +79,11 @@ export default function Hero() {
           transition={{ delay: 0.3, duration: 0.8 }}
         >
           <div className="flex items-center gap-3 md:gap-4">
-            <Image src="/images/wine.png" alt="" width={48} height={48} className="w-10 h-10 md:w-12 md:h-12 object-contain -scale-x-100" />
+            <Image src="/images/wine1.png" alt="" width={48} height={48} className="w-10 h-10 md:w-12 md:h-12 object-contain -scale-x-100" />
             <p className="font-script text-4xl md:text-5xl text-gold-600">
               {PARTY_CONFIG.tagline}
             </p>
-            <Image src="/images/wine.png" alt="" width={48} height={48} className="w-10 h-10 md:w-12 md:h-12 object-contain" />
+            <Image src="/images/wine1.png" alt="" width={48} height={48} className="w-10 h-10 md:w-12 md:h-12 object-contain" />
           </div>
           {/* Calligraphic swash underline */}
           <svg viewBox="0 0 200 12" className="w-48 md:w-64 mt-1" fill="none" xmlns="http://www.w3.org/2000/svg">
