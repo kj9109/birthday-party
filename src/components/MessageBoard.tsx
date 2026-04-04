@@ -78,10 +78,10 @@ export default function MessageBoard() {
           transition={{ duration: 0.6 }}
         >
           <p className="font-script text-3xl text-gold-400 mb-2">
-            Wishes &
+            Leave a
           </p>
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-neutral-900">
-            Messages
+            Message
           </h2>
           <div className="section-divider mt-6" />
         </motion.div>

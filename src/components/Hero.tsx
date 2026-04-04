@@ -170,10 +170,15 @@ export default function Hero() {
             <div className="w-6 h-[1px] bg-wine-500" />
           </div>
 
-          <div className="flex items-center gap-2">
-            <MapPin size={16} className="text-gold-400 flex-shrink-0" />
-            <p className="font-sans text-sm font-bold text-neutral-400 tracking-wide">
-              Chimney Hill Estate Inn
+          <div className="flex flex-col items-center gap-1">
+            <div className="flex items-center gap-2">
+              <MapPin size={16} className="text-gold-400 flex-shrink-0" />
+              <p className="font-sans text-sm font-bold text-neutral-400 tracking-wide">
+                Chimney Hill Estate Inn
+              </p>
+            </div>
+            <p className="font-sans text-xs text-neutral-500 tracking-wide">
+              207 Goat Hill Rd, Lambertville, NJ 08530
             </p>
           </div>
         </motion.div>
