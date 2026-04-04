@@ -18,7 +18,7 @@ export const PARTY_CONFIG = {
 
   // Hero section
   tagline: "Like Fine Wine",
-  subtitle: "She only gets better with time",
+  subtitle: "Surprise Party",
 
   // Weekend itinerary
   itinerary: [

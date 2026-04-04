@@ -72,14 +72,36 @@ export default function Hero() {
         transition={{ duration: 1, ease: "easeOut" }}
       >
         {/* Tagline */}
-        <motion.p
-          className="font-script text-4xl md:text-5xl text-gold-400 mb-4"
+        <motion.div
+          className="mb-4 inline-flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          {PARTY_CONFIG.tagline}
-        </motion.p>
+          <p className="font-script text-4xl md:text-5xl text-gold-400 flex items-center gap-2">
+            <span>🍷</span>
+            {PARTY_CONFIG.tagline}
+            <span>🍷</span>
+          </p>
+          {/* Calligraphic swash underline */}
+          <svg viewBox="0 0 200 12" className="w-48 md:w-64 mt-1" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10 8 C30 2, 50 2, 70 6 S110 10, 130 5 S170 1, 190 6"
+              stroke="#722F37"
+              strokeWidth="2"
+              strokeLinecap="round"
+              fill="none"
+            />
+            <path
+              d="M30 10 C50 5, 80 4, 100 7 S140 11, 170 6"
+              stroke="#722F37"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0.5"
+            />
+          </svg>
+        </motion.div>
 
         {/* Photo */}
         <motion.div
@@ -112,7 +134,7 @@ export default function Hero() {
 
         {/* Subtitle */}
         <motion.p
-          className="font-sans text-lg md:text-xl text-wine-300 tracking-widest uppercase mb-10 italic"
+          className="font-sans text-lg md:text-xl text-wine-300 tracking-widest uppercase mb-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
