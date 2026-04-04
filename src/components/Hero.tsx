@@ -52,16 +52,11 @@ export default function Hero() {
       id="home"
       className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 md:pt-0 overflow-hidden"
     >
-      {/* Background image */}
-      <div className="absolute inset-0">
-        <Image
-          src="/images/wine-bg.avif"
-          alt=""
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-white/70" />
+      {/* Background decorations */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-gold-100/30 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-gold-100/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-50/40 rounded-full blur-3xl" />
       </div>
 
       {/* Corner decorations */}
@@ -200,7 +195,7 @@ export default function Hero() {
             { value: countdown.seconds, label: "Seconds" },
           ].map((item) => (
             <div key={item.label} className="text-center">
-              <div className="bg-white/60 border border-neutral-200/60 rounded-xl p-3 md:p-5 mb-2 backdrop-blur-sm shadow-sm">
+              <div className="elegant-card p-3 md:p-5 mb-2">
                 <span className="font-serif text-3xl md:text-4xl font-bold text-neutral-900">
                   {String(item.value).padStart(2, "0")}
                 </span>
