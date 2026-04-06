@@ -128,6 +128,7 @@ export default function Attendees() {
   const [stayingOvernight, setStayingOvernight] = useState<boolean | null>(null);
   const [comment, setComment] = useState("");
   const [submittedStayingOvernight, setSubmittedStayingOvernight] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submittedStatus, setSubmittedStatus] = useState(status);
@@ -148,6 +149,33 @@ export default function Attendees() {
     return () => clearInterval(interval);
   }, [fetchGuests]);
 
+  // Auto-fill form when email matches an existing guest
+  const handleEmailBlur = () => {
+    if (!email.trim()) { setIsUpdating(false); return; }
+    const match = guests.find(
+      (g) => g.email.toLowerCase() === email.trim().toLowerCase() && !g.plusOneOf
+    );
+    if (match) {
+      setName(match.name);
+      setPhone(match.phone || "");
+      setStatus(match.status);
+      setComment(match.comment || "");
+      setStayingOvernight(match.events?.stayingOver ?? null);
+      if (match.photoUrl) setPhotoPreview(match.photoUrl);
+      // Check for a +1
+      const plus1 = guests.find((g) => g.plusOneOf === match.id);
+      if (plus1) {
+        setBringingPlusOne(true);
+        setPlusOneName(plus1.name.endsWith("'s +1") ? "" : plus1.name);
+      } else {
+        setBringingPlusOne(null);
+      }
+      setIsUpdating(true);
+    } else {
+      setIsUpdating(false);
+    }
+  };
+
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -156,6 +184,7 @@ export default function Attendees() {
   };
 
   const resetForm = () => {
+    setIsUpdating(false);
     setName("");
     setEmail("");
     setPhone("");
@@ -339,9 +368,14 @@ export default function Attendees() {
                   <div className="flex items-center gap-3 mb-2">
                     <UserPlus size={20} className="text-gold-400" />
                     <h3 className="font-serif text-xl font-bold text-neutral-900">
-                      RSVP
+                      {isUpdating ? "Update RSVP" : "RSVP"}
                     </h3>
                   </div>
+                  {isUpdating && (
+                    <p className="text-xs text-wine-500 -mt-2 mb-2 font-sans">
+                      Updating your existing RSVP. Change anything below and resubmit.
+                    </p>
+                  )}
 
                   {/* Photo upload */}
                   <div className="flex flex-col items-center mb-2">
@@ -375,20 +409,21 @@ export default function Attendees() {
                     />
                   </div>
 
-                  {/* Name & Email */}
+                  {/* Email first (for lookup), then Name */}
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onBlur={handleEmailBlur}
+                    placeholder="Email * (enter to look up existing RSVP)"
+                    className="gold-input"
+                    required
+                  />
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your name *"
-                    className="gold-input"
-                    required
-                  />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email *"
                     className="gold-input"
                     required
                   />
@@ -504,7 +539,7 @@ export default function Attendees() {
                     disabled={loading || !name.trim() || !email.trim() || bringingPlusOne === null}
                     className="gold-button w-full disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? "Submitting..." : "Submit RSVP"}
+                    {loading ? "Submitting..." : isUpdating ? "Update RSVP" : "Submit RSVP"}
                   </button>
                 </motion.form>
               )}
