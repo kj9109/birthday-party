@@ -173,3 +173,31 @@ async function syncGuestToCalendar(
     await removeAttendeeFromEvent(OVERNIGHT_EVENT_ID, guest.email);
   }
 }
+
+/**
+ * DELETE /api/guests — remove guests by ID array.
+ * Body: { ids: string[], secret: string }
+ */
+export async function DELETE(request: Request) {
+  try {
+    const { ids, secret } = await request.json();
+    if (secret !== process.env.CALENDAR_ADMIN_SECRET && secret !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return NextResponse.json({ error: "ids array required" }, { status: 400 });
+    }
+
+    const guests = (await getKey<Guest[]>("guests")) || [];
+    const idsSet = new Set(ids);
+    const filtered = guests.filter((g) => !idsSet.has(g.id));
+    const removed = guests.length - filtered.length;
+
+    await setKey("guests", filtered);
+
+    return NextResponse.json({ removed, remaining: filtered.length });
+  } catch (err) {
+    console.error("[API] DELETE /api/guests error:", err);
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
+}
