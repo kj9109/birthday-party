@@ -57,7 +57,7 @@ function generateCalendarInvite(guestName: string): string {
     "LOCATION:Chimney Hill Estate Inn\\, 207 Goat Hill Rd\\, Lambertville\\, NJ 08530",
     `DESCRIPTION:Like Fine Wine - Daria's Surprise Birthday Party\\n\\n` +
       `3:00 PM - Party Starts (Daria arrives shortly after!)\\n` +
-      `3:00-6:30 PM - Apps\\, Drinks\\, Games\\, Tarotist\\, Live Music\\n` +
+      `3:30 PM - Apps\\, Drinks\\, Games\\, Tarotist\\, Live Music\\n` +
       `7:00 PM - Dinner (Catered Italian Classics)\\n` +
       `9:00 PM - Evening Festivities\\n\\n` +
       `Chimney Hill Estate Inn\\n207 Goat Hill Rd\\, Lambertville\\, NJ 08530\\n\\n` +
@@ -152,7 +152,7 @@ export async function sendGuestConfirmation(guest: Guest): Promise<void> {
 
         <p style="font-weight:600;margin:0 0 8px;">The plan:</p>
         <p style="margin:0 0 4px;">🥂 <strong>3:00 PM</strong> - Party Starts (Daria arrives shortly after!)</p>
-        <p style="margin:0 0 4px;">🎵 <strong>3:00-6:30 PM</strong> - Apps, Drinks, Games, Tarotist, Live Music</p>
+        <p style="margin:0 0 4px;">🎵 <strong>3:30 PM</strong> - Apps, Drinks, Games, Tarotist, Live Music</p>
         <p style="margin:0 0 4px;">🍝 <strong>7:00 PM</strong> - Dinner (Catered Italian Classics)</p>
         <p style="margin:0 0 4px;">🔥 <strong>9:00 PM</strong> - Evening Festivities</p>
       </div>
