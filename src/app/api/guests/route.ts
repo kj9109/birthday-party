@@ -4,8 +4,8 @@ import { sendHostNotification, sendGuestConfirmation } from "@/lib/email";
 import { addAttendeeToEvent, removeAttendeeFromEvent } from "@/lib/google-calendar";
 import type { Guest } from "@/lib/types";
 
-const PARTY_EVENT_ID = process.env.GOOGLE_CALENDAR_PARTY_EVENT_ID || "";
-const OVERNIGHT_EVENT_ID = process.env.GOOGLE_CALENDAR_OVERNIGHT_EVENT_ID || "";
+const PARTY_EVENT_ID = process.env.GOOGLE_CALENDAR_EVENT_ID_PARTY || process.env.GOOGLE_CALENDAR_PARTY_EVENT_ID || "";
+const OVERNIGHT_EVENT_ID = process.env.GOOGLE_CALENDAR_EVENT_ID_OVERNIGHT || process.env.GOOGLE_CALENDAR_OVERNIGHT_EVENT_ID || "";
 
 export async function GET() {
   const guests = (await getKey<Guest[]>("guests")) || [];
