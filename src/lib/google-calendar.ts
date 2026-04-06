@@ -10,9 +10,9 @@ import { google, calendar_v3 } from "googleapis";
 
 function isEnabled(): boolean {
   return (
-    process.env.ENABLE_CALENDAR_SYNC === "true" &&
+    (process.env.ENABLE_CALENDAR_SYNC || "").trim() === "true" &&
     !!process.env.GOOGLE_CALENDAR_CREDENTIALS &&
-    !!process.env.GOOGLE_CALENDAR_ID
+    !!(process.env.GOOGLE_CALENDAR_ID || "").trim()
   );
 }
 
@@ -33,7 +33,7 @@ function getCalendar(): calendar_v3.Calendar {
 }
 
 function getCalendarId(): string {
-  return process.env.GOOGLE_CALENDAR_ID || "";
+  return (process.env.GOOGLE_CALENDAR_ID || "").trim();
 }
 
 /**
