@@ -140,9 +140,11 @@ export async function addAttendeeToEvent(
 
     console.log(`[Calendar] Added ${email} (${displayName}) to event ${eventId}`);
     return true;
-  } catch (err) {
-    console.error(`[Calendar] Failed to add ${email} to event ${eventId}:`, err);
-    return false;
+  } catch (err: any) {
+    const msg = err?.message || err?.errors?.[0]?.message || String(err);
+    console.error(`[Calendar] Failed to add ${email} to event ${eventId}:`, msg);
+    // Re-throw so callers can see the actual error
+    throw new Error(`Calendar add failed: ${msg}`);
   }
 }
 
