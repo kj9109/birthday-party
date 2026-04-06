@@ -27,7 +27,7 @@ export const PARTY_CONFIG = {
       date: "May 2",
       events: [
         { time: "3:00 PM", title: "Party Starts", description: "Daria arrives shortly after 3 and will be surprised to see everyone" },
-        { time: "3:30 PM", title: "Apps, Drinks, Games, Tarotist, and Live Music", description: "After Daria arrives, relax and have fun" },
+        { time: "3:30 PM", title: "Apps, Drinks, Games, Entertainment, and Live Music", description: "After Daria arrives, relax and have fun" },
         { time: "7:00 PM", title: "Dinner", description: "Plenty of food and drink. Catered Italian classics." },
         { time: "9:00 PM", title: "Evening Festivities", description: "Fire, sauna, hot tub outside; singing, music, nightcaps inside" },
       ],
