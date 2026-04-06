@@ -20,8 +20,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const partyEventId = process.env.GOOGLE_CALENDAR_EVENT_ID_PARTY || process.env.GOOGLE_CALENDAR_PARTY_EVENT_ID;
-  const overnightEventId = process.env.GOOGLE_CALENDAR_EVENT_ID_OVERNIGHT || process.env.GOOGLE_CALENDAR_OVERNIGHT_EVENT_ID;
+  const partyEventId = (process.env.GOOGLE_CALENDAR_EVENT_ID_PARTY || process.env.GOOGLE_CALENDAR_PARTY_EVENT_ID || "").trim();
+  const overnightEventId = (process.env.GOOGLE_CALENDAR_EVENT_ID_OVERNIGHT || process.env.GOOGLE_CALENDAR_OVERNIGHT_EVENT_ID || "").trim();
 
   if (!partyEventId) {
     return NextResponse.json({ error: "Party event ID not configured" }, { status: 500 });

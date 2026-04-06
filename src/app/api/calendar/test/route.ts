@@ -7,7 +7,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const partyEventId = process.env.GOOGLE_CALENDAR_EVENT_ID_PARTY || "";
+  const partyEventId = (process.env.GOOGLE_CALENDAR_EVENT_ID_PARTY || "").trim();
   const enabled = process.env.ENABLE_CALENDAR_SYNC;
   const hasCredentials = !!process.env.GOOGLE_CALENDAR_CREDENTIALS;
   const calendarId = process.env.GOOGLE_CALENDAR_ID || "";
