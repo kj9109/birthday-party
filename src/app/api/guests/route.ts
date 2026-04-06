@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { getKey, setKey } from "@/lib/db";
 import { sendHostNotification, sendGuestConfirmation } from "@/lib/email";
+import { addAttendeeToEvent, removeAttendeeFromEvent } from "@/lib/google-calendar";
 import type { Guest } from "@/lib/types";
+
+const PARTY_EVENT_ID = process.env.GOOGLE_CALENDAR_PARTY_EVENT_ID || "";
+const OVERNIGHT_EVENT_ID = process.env.GOOGLE_CALENDAR_OVERNIGHT_EVENT_ID || "";
 
 export async function GET() {
   const guests = (await getKey<Guest[]>("guests")) || [];
@@ -19,6 +23,7 @@ export async function POST(request: Request) {
       photoUrl,
       comment,
       plusOneName,
+      plusOneEmail,
       events,
     } = body;
 
@@ -36,6 +41,8 @@ export async function POST(request: Request) {
     const existingIndex = guests.findIndex(
       (g) => g.email.toLowerCase() === email.trim().toLowerCase()
     );
+
+    const previousStatus = existingIndex >= 0 ? guests[existingIndex].status : null;
 
     const guestData: Guest = {
       id: existingIndex >= 0 ? guests[existingIndex].id : crypto.randomUUID(),
@@ -60,7 +67,6 @@ export async function POST(request: Request) {
     // Handle plus-one
     let plusOneGuest: Guest | undefined;
     if (plusOneName?.trim()) {
-      // Check if plus-one already exists
       const plusOneIndex = guests.findIndex(
         (g) => g.plusOneOf === guestData.id
       );
@@ -68,7 +74,7 @@ export async function POST(request: Request) {
       plusOneGuest = {
         id: plusOneIndex >= 0 ? guests[plusOneIndex].id : crypto.randomUUID(),
         name: plusOneName.trim(),
-        email: "",
+        email: plusOneEmail?.trim()?.toLowerCase() || "",
         status: guestData.status,
         plusOneOf: guestData.id,
         events: guestData.events,
@@ -93,9 +99,14 @@ export async function POST(request: Request) {
 
     await setKey("guests", guests);
 
-    // Send emails (fire and forget so the response is fast)
+    // Send emails (fire and forget)
     sendHostNotification(guestData, plusOneGuest).catch(() => {});
     sendGuestConfirmation(guestData).catch(() => {});
+
+    // Google Calendar sync (fire and forget)
+    syncGuestToCalendar(guestData, previousStatus, plusOneGuest).catch((err) => {
+      console.error("[Calendar] Sync failed for", guestData.email, err);
+    });
 
     return NextResponse.json(
       { guest: guestData, plusOne: plusOneGuest },
@@ -104,5 +115,61 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error("[API] POST /api/guests error:", err);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
+}
+
+/**
+ * Sync a guest's RSVP status to Google Calendar events.
+ * Non-blocking — errors are logged but don't affect the RSVP response.
+ */
+async function syncGuestToCalendar(
+  guest: Guest,
+  previousStatus: string | null,
+  plusOne?: Guest
+) {
+  if (!PARTY_EVENT_ID) return;
+
+  if (guest.status === "attending") {
+    // Add to party event
+    await addAttendeeToEvent(PARTY_EVENT_ID, guest.email, guest.name);
+
+    // Add to overnight event if staying
+    if (guest.events?.stayingOver && OVERNIGHT_EVENT_ID) {
+      await addAttendeeToEvent(OVERNIGHT_EVENT_ID, guest.email, guest.name);
+    }
+
+    // Add +1 if they have a valid email
+    if (plusOne?.email && plusOne.email.includes("@")) {
+      await addAttendeeToEvent(PARTY_EVENT_ID, plusOne.email, plusOne.name);
+      if (guest.events?.stayingOver && OVERNIGHT_EVENT_ID) {
+        await addAttendeeToEvent(OVERNIGHT_EVENT_ID, plusOne.email, plusOne.name);
+      }
+    }
+  } else if (guest.status === "declined") {
+    // Remove from party event
+    await removeAttendeeFromEvent(PARTY_EVENT_ID, guest.email);
+
+    // Remove from overnight event
+    if (OVERNIGHT_EVENT_ID) {
+      await removeAttendeeFromEvent(OVERNIGHT_EVENT_ID, guest.email);
+    }
+
+    // Remove +1
+    if (plusOne?.email && plusOne.email.includes("@")) {
+      await removeAttendeeFromEvent(PARTY_EVENT_ID, plusOne.email);
+      if (OVERNIGHT_EVENT_ID) {
+        await removeAttendeeFromEvent(OVERNIGHT_EVENT_ID, plusOne.email);
+      }
+    }
+  } else if (guest.status === "maybe") {
+    // For "maybe", add them but they won't show as confirmed
+    // Google Calendar doesn't have a "maybe" status via API, so we just add them
+    await addAttendeeToEvent(PARTY_EVENT_ID, guest.email, guest.name);
+  }
+
+  // Handle overnight event specifically:
+  // If attending but NOT staying overnight, remove from overnight event
+  if (guest.status === "attending" && !guest.events?.stayingOver && OVERNIGHT_EVENT_ID) {
+    await removeAttendeeFromEvent(OVERNIGHT_EVENT_ID, guest.email);
   }
 }
