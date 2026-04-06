@@ -124,8 +124,10 @@ export default function Attendees() {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [plusOneName, setPlusOneName] = useState("");
   const [bringingPlusOne, setBringingPlusOne] = useState<boolean | null>(null);
+  const [plusOneEmail, setPlusOneEmail] = useState("");
   const [stayingOvernight, setStayingOvernight] = useState<boolean | null>(null);
   const [comment, setComment] = useState("");
+  const [submittedStayingOvernight, setSubmittedStayingOvernight] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submittedStatus, setSubmittedStatus] = useState(status);
@@ -161,6 +163,7 @@ export default function Attendees() {
     setPhotoFile(null);
     setPhotoPreview(null);
     setPlusOneName("");
+    setPlusOneEmail("");
     setBringingPlusOne(null);
     setStayingOvernight(null);
     setComment("");
@@ -191,6 +194,7 @@ export default function Attendees() {
           photoUrl,
           comment: comment.trim() || undefined,
           plusOneName: bringingPlusOne ? (plusOneName.trim() || `${name.trim()}'s +1`) : undefined,
+          plusOneEmail: bringingPlusOne && plusOneEmail.trim() ? plusOneEmail.trim() : undefined,
           stayingOvernight: stayingOvernight ?? false,
           events: { dinnerParty: true, stayingOver: stayingOvernight ?? false },
         }),
@@ -198,6 +202,7 @@ export default function Attendees() {
 
       if (res.ok) {
         setSubmittedStatus(status);
+        setSubmittedStayingOvernight(stayingOvernight ?? false);
         setSubmitted(true);
         resetForm();
         fetchGuests();
@@ -290,9 +295,31 @@ export default function Attendees() {
                         : "Maybe next time. We'll be thinking of you!"}
                   </p>
 
-                  {submittedStatus !== "declined" && (
-                      <div className="w-full mb-6"></div>
-                    )}
+                  {submittedStatus === "attending" && (
+                    <div className="w-full space-y-2 mb-6">
+                      <p className="font-sans text-xs font-semibold text-neutral-400 uppercase tracking-wider">
+                        Add to your calendar
+                      </p>
+                      <a
+                        href="https://calendar.app.google/i3HsVVFRDHgZ1Lmk7"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-3 rounded-lg border border-gold-200 hover:border-gold-400 transition-colors text-sm font-sans"
+                      >
+                        🎉 <span>Daria&apos;s Birthday Party</span>
+                      </a>
+                      {submittedStayingOvernight && (
+                        <a
+                          href="https://calendar.app.google/McqTMeL6AL1d6yWn9"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-3 rounded-lg border border-gold-200 hover:border-gold-400 transition-colors text-sm font-sans"
+                        >
+                          🏨 <span>Staying Overnight at Chimney Hill</span>
+                        </a>
+                      )}
+                    </div>
+                  )}
 
                   <button
                     onClick={() => setSubmitted(false)}
@@ -418,13 +445,22 @@ export default function Attendees() {
                       ))}
                     </div>
                     {bringingPlusOne && (
-                      <input
-                        type="text"
-                        value={plusOneName}
-                        onChange={(e) => setPlusOneName(e.target.value)}
-                        placeholder="Their name (optional)"
-                        className="gold-input"
-                      />
+                      <div className="space-y-2">
+                        <input
+                          type="text"
+                          value={plusOneName}
+                          onChange={(e) => setPlusOneName(e.target.value)}
+                          placeholder="Their name (helps us get an accurate headcount)"
+                          className="gold-input"
+                        />
+                        <input
+                          type="email"
+                          value={plusOneEmail}
+                          onChange={(e) => setPlusOneEmail(e.target.value)}
+                          placeholder="Their email (optional, for calendar invite)"
+                          className="gold-input"
+                        />
+                      </div>
                     )}
                   </div>
 

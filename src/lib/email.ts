@@ -157,13 +157,21 @@ export async function sendGuestConfirmation(guest: Guest): Promise<void> {
         <p style="margin:0 0 4px;">🔥 <strong>9:00 PM</strong> - Evening Festivities</p>
       </div>
 
+      ${guest.status === "attending" ? `
+        <div style="text-align:center;margin:24px 0;">
+          <p style="color:#666;font-size:14px;margin:0 0 12px;">Add to your Google Calendar:</p>
+          <a href="https://calendar.app.google/i3HsVVFRDHgZ1Lmk7" style="display:inline-block;padding:10px 20px;background:#D4AF37;color:#1a1a1a;border-radius:6px;text-decoration:none;font-weight:600;margin:4px;">🎉 Party</a>
+          ${guest.events?.stayingOver ? `<a href="https://calendar.app.google/McqTMeL6AL1d6yWn9" style="display:inline-block;padding:10px 20px;background:#D4AF37;color:#1a1a1a;border-radius:6px;text-decoration:none;font-weight:600;margin:4px;">🏨 Overnight Stay</a>` : ""}
+        </div>
+      ` : ""}
+
       <div style="text-align:center;margin:24px 0;">
         <a href="${SITE_URL}" style="display:inline-block;padding:12px 28px;background:#D4AF37;color:#1a1a1a;border-radius:8px;text-decoration:none;font-weight:600;">View Party Details</a>
       </div>
 
       ${guest.status !== "declined" ? `
         <p style="text-align:center;color:#888;font-size:13px;margin-top:24px;">
-          A calendar invite is attached to this email. Open it to add the party to your calendar.
+          A calendar invite (.ics) is also attached to this email.
         </p>
       ` : ""}
 
