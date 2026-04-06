@@ -170,6 +170,9 @@ export async function sendGuestConfirmation(guest: Guest): Promise<void> {
       <p style="text-align:center;color:#bbb;font-size:11px;margin-top:32px;">
         This is a surprise party! Please don't tell Daria 🤫
       </p>
+      <p style="text-align:center;color:#999;font-size:11px;margin-top:12px;">
+        You can reply directly to this message with any questions, or <a href="${SITE_URL}#questions" style="color:#D4AF37;">submit a question through the website</a>.
+      </p>
     </div>
   `;
 
