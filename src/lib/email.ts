@@ -107,6 +107,7 @@ export async function sendHostNotification(guest: Guest, plusOne?: Guest): Promi
   try {
     await resend.emails.send({
       from: FROM_EMAIL,
+      replyTo: HOST_EMAIL,
       to: HOST_EMAIL,
       subject: `[RSVP] ${guest.name} is ${guest.status}!`,
       html,
@@ -175,6 +176,7 @@ export async function sendGuestConfirmation(guest: Guest): Promise<void> {
   try {
     const emailPayload: Record<string, unknown> = {
       from: FROM_EMAIL,
+      replyTo: HOST_EMAIL,
       to: guest.email,
       subject,
       html,
