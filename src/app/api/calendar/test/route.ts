@@ -25,11 +25,18 @@ export async function GET(request: Request) {
 
   const testEmail = searchParams.get("email") || "test@example.com";
   const testName = searchParams.get("name") || "Test User";
+  const action = searchParams.get("action") || "add";
 
   let addResult: string;
   try {
-    const success = await addAttendeeToEvent(partyEventId, testEmail, testName);
-    addResult = success ? "SUCCESS" : "RETURNED_FALSE";
+    if (action === "remove") {
+      const { removeAttendeeFromEvent } = await import("@/lib/google-calendar");
+      const success = await removeAttendeeFromEvent(partyEventId, testEmail);
+      addResult = success ? "REMOVED" : "REMOVE_FAILED";
+    } else {
+      const success = await addAttendeeToEvent(partyEventId, testEmail, testName);
+      addResult = success ? "SUCCESS" : "RETURNED_FALSE";
+    }
   } catch (err: any) {
     addResult = `ERROR: ${err?.message || String(err)}`;
   }
