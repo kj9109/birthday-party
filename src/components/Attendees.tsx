@@ -128,7 +128,9 @@ export default function Attendees() {
   const [stayingOvernight, setStayingOvernight] = useState<boolean | null>(null);
   const [comment, setComment] = useState("");
   const [submittedStayingOvernight, setSubmittedStayingOvernight] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [formMode, setFormMode] = useState<"new" | "lookup" | "update">("new");
+  const [lookupEmail, setLookupEmail] = useState("");
+  const [lookupError, setLookupError] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submittedStatus, setSubmittedStatus] = useState(status);
@@ -149,31 +151,32 @@ export default function Attendees() {
     return () => clearInterval(interval);
   }, [fetchGuests]);
 
-  // Auto-fill form when email matches an existing guest
-  const handleEmailBlur = () => {
-    if (!email.trim()) { setIsUpdating(false); return; }
+  // Look up an existing RSVP by email and fill the form
+  const handleLookup = () => {
+    if (!lookupEmail.trim()) return;
     const match = guests.find(
-      (g) => g.email.toLowerCase() === email.trim().toLowerCase() && !g.plusOneOf
+      (g) => g.email.toLowerCase() === lookupEmail.trim().toLowerCase() && !g.plusOneOf
     );
-    if (match) {
-      setName(match.name);
-      setPhone(match.phone || "");
-      setStatus(match.status);
-      setComment(match.comment || "");
-      setStayingOvernight(match.events?.stayingOver ?? null);
-      if (match.photoUrl) setPhotoPreview(match.photoUrl);
-      // Check for a +1
-      const plus1 = guests.find((g) => g.plusOneOf === match.id);
-      if (plus1) {
-        setBringingPlusOne(true);
-        setPlusOneName(plus1.name.endsWith("'s +1") ? "" : plus1.name);
-      } else {
-        setBringingPlusOne(null);
-      }
-      setIsUpdating(true);
-    } else {
-      setIsUpdating(false);
+    if (!match) {
+      setLookupError("No RSVP found with that email. Try submitting a new one.");
+      return;
     }
+    setLookupError("");
+    setEmail(match.email);
+    setName(match.name);
+    setPhone(match.phone || "");
+    setStatus(match.status);
+    setComment(match.comment || "");
+    setStayingOvernight(match.events?.stayingOver ?? null);
+    if (match.photoUrl) setPhotoPreview(match.photoUrl);
+    const plus1 = guests.find((g) => g.plusOneOf === match.id);
+    if (plus1) {
+      setBringingPlusOne(true);
+      setPlusOneName(plus1.name.endsWith("'s +1") ? "" : plus1.name);
+    } else {
+      setBringingPlusOne(null);
+    }
+    setFormMode("update");
   };
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,7 +187,9 @@ export default function Attendees() {
   };
 
   const resetForm = () => {
-    setIsUpdating(false);
+    setFormMode("new");
+    setLookupEmail("");
+    setLookupError("");
     setName("");
     setEmail("");
     setPhone("");
@@ -357,6 +362,50 @@ export default function Attendees() {
                     Submit another RSVP
                   </button>
                 </motion.div>
+              ) : formMode === "lookup" ? (
+                /* Email lookup screen */
+                <motion.div
+                  key="lookup"
+                  className="space-y-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <UserPlus size={20} className="text-gold-400" />
+                    <h3 className="font-serif text-xl font-bold text-neutral-900">
+                      Update RSVP
+                    </h3>
+                  </div>
+                  <p className="font-sans text-sm text-neutral-500">
+                    Enter the email you used when you originally RSVP&apos;d.
+                  </p>
+                  <input
+                    type="email"
+                    value={lookupEmail}
+                    onChange={(e) => { setLookupEmail(e.target.value); setLookupError(""); }}
+                    placeholder="Your email"
+                    className="gold-input"
+                  />
+                  {lookupError && (
+                    <p className="text-xs text-red-500 font-sans">{lookupError}</p>
+                  )}
+                  <button
+                    type="button"
+                    onClick={handleLookup}
+                    disabled={!lookupEmail.trim()}
+                    className="gold-button w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Find my RSVP
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormMode("new")}
+                    className="w-full font-sans text-sm text-gold-500 hover:text-gold-600 underline underline-offset-2"
+                  >
+                    Back to new RSVP
+                  </button>
+                </motion.div>
               ) : (
                 <motion.form
                   key="form"
@@ -368,10 +417,10 @@ export default function Attendees() {
                   <div className="flex items-center gap-3 mb-2">
                     <UserPlus size={20} className="text-gold-400" />
                     <h3 className="font-serif text-xl font-bold text-neutral-900">
-                      {isUpdating ? "Update RSVP" : "RSVP"}
+                      {formMode === "update" ? "Update RSVP" : "RSVP"}
                     </h3>
                   </div>
-                  {isUpdating && (
+                  {formMode === "update" && (
                     <p className="text-xs text-wine-500 -mt-2 mb-2 font-sans">
                       Updating your existing RSVP. Change anything below and resubmit.
                     </p>
@@ -409,21 +458,20 @@ export default function Attendees() {
                     />
                   </div>
 
-                  {/* Email first (for lookup), then Name */}
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onBlur={handleEmailBlur}
-                    placeholder="Email * (enter to look up existing RSVP)"
-                    className="gold-input"
-                    required
-                  />
+                  {/* Name & Email */}
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your name *"
+                    className="gold-input"
+                    required
+                  />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email *"
                     className="gold-input"
                     required
                   />
@@ -539,8 +587,26 @@ export default function Attendees() {
                     disabled={loading || !name.trim() || !email.trim() || bringingPlusOne === null}
                     className="gold-button w-full disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? "Submitting..." : isUpdating ? "Update RSVP" : "Submit RSVP"}
+                    {loading ? "Submitting..." : formMode === "update" ? "Update RSVP" : "Submit RSVP"}
                   </button>
+                  {formMode === "new" && (
+                    <button
+                      type="button"
+                      onClick={() => setFormMode("lookup")}
+                      className="w-full font-sans text-xs text-neutral-400 hover:text-gold-500 transition-colors mt-1"
+                    >
+                      Already RSVP&apos;d? Update your response
+                    </button>
+                  )}
+                  {formMode === "update" && (
+                    <button
+                      type="button"
+                      onClick={resetForm}
+                      className="w-full font-sans text-xs text-neutral-400 hover:text-gold-500 transition-colors mt-1"
+                    >
+                      Cancel and start a new RSVP
+                    </button>
+                  )}
                 </motion.form>
               )}
             </AnimatePresence>
