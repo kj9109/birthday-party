@@ -1,7 +1,7 @@
 import type { Guest } from "./types";
 
 const HOST_EMAIL = "kj9109@gmail.com";
-const FROM_EMAIL = process.env.FROM_EMAIL || "onboarding@resend.dev";
+const FROM_EMAIL = process.env.FROM_EMAIL || "Daria's Birthday <party@premierletters.com>";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://partyfordaria.com";
 
 function useResend(): boolean {
