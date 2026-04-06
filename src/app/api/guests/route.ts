@@ -178,26 +178,32 @@ async function syncGuestToCalendar(
  * DELETE /api/guests — remove guests by ID array.
  * Body: { ids: string[], secret: string }
  */
-export async function DELETE(request: Request) {
+/**
+ * PATCH /api/guests — admin operations (delete guests by ID).
+ * Body: { action: "delete", ids: string[], secret: string }
+ */
+export async function PATCH(request: Request) {
   try {
-    const { ids, secret } = await request.json();
+    const { action, ids, secret } = await request.json();
     if (secret !== process.env.CALENDAR_ADMIN_SECRET && secret !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    if (!Array.isArray(ids) || ids.length === 0) {
-      return NextResponse.json({ error: "ids array required" }, { status: 400 });
+
+    if (action === "delete") {
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return NextResponse.json({ error: "ids array required" }, { status: 400 });
+      }
+      const guests = (await getKey<Guest[]>("guests")) || [];
+      const idsSet = new Set(ids);
+      const filtered = guests.filter((g) => !idsSet.has(g.id));
+      const removed = guests.length - filtered.length;
+      await setKey("guests", filtered);
+      return NextResponse.json({ removed, remaining: filtered.length });
     }
 
-    const guests = (await getKey<Guest[]>("guests")) || [];
-    const idsSet = new Set(ids);
-    const filtered = guests.filter((g) => !idsSet.has(g.id));
-    const removed = guests.length - filtered.length;
-
-    await setKey("guests", filtered);
-
-    return NextResponse.json({ removed, remaining: filtered.length });
+    return NextResponse.json({ error: "Unknown action" }, { status: 400 });
   } catch (err) {
-    console.error("[API] DELETE /api/guests error:", err);
+    console.error("[API] PATCH /api/guests error:", err);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 }
