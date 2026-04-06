@@ -9,8 +9,8 @@ export const PARTY_CONFIG = {
 
   // Party date and time
   date: "2026-05-02",
-  time: "2:00 PM",
-  endTime: "2:00 PM – whenever!",
+  time: "3:00 PM",
+  endTime: "3:00 PM – whenever!",
 
   // Venue details
   venue: "Chimney Hill Estate Inn",
@@ -26,8 +26,8 @@ export const PARTY_CONFIG = {
       day: "Saturday",
       date: "May 2",
       events: [
-        { time: "2:00 PM", title: "Party Starts", description: "Daria arrives at 2:30, and will be surprised to see everyone" },
-        { time: "3:00 PM", title: "Apps, Drinks, Games, and Live Music", description: "After Daria arrives, relax and have fun" },
+        { time: "3:00 PM", title: "Party Starts", description: "Daria arrives shortly after 3 and will be surprised to see everyone" },
+        { time: "3:00 – 6:30 PM", title: "Apps, Drinks, Games, Tarotist, and Live Music", description: "After Daria arrives, relax and have fun" },
         { time: "7:00 PM", title: "Dinner", description: "Plenty of food and drink. Catered Italian classics." },
         { time: "9:00 PM", title: "Evening Festivities", description: "Fire, sauna, hot tub outside; singing, music, nightcaps inside" },
       ],
@@ -40,7 +40,7 @@ export const PARTY_CONFIG = {
   // Venue
   venue_detail: {
     name: "Chimney Hill Estate Inn",
-    timeRange: "2:00 PM – whenever!",
+    timeRange: "3:00 PM – whenever!",
     description:
       "A charming B&B estate on 8.5 acres in Lambertville, NJ. Perfect for hosting parties and special occasions. The property features a rustic-meets-luxury farmhouse, and seven historic buildings (dating to the 1820s), with an alpaca and chicken area, hot tubs, sauna, greenhouse, firepit/fireplaces, a baby grand piano, and much more.",
     address: "207 Goat Hill Road, Lambertville, NJ 08530",

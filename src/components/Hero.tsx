@@ -15,7 +15,7 @@ function useCountdown(targetDate: string) {
   });
 
   useEffect(() => {
-    const target = new Date(`${targetDate}T14:00:00-04:00`).getTime();
+    const target = new Date(`${targetDate}T15:00:00-04:00`).getTime();
 
     const update = () => {
       const now = Date.now();
