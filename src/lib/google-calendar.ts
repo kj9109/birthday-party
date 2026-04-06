@@ -1,35 +1,67 @@
 /**
- * Google Calendar API Integration
+ * Google Calendar API Integration (OAuth)
  *
- * Adds/removes attendees from Google Calendar events when guests RSVP.
- * Uses a service account for authentication.
- * All operations are non-blocking — failures are logged but don't break the RSVP flow.
+ * Uses the calendar owner's OAuth tokens (not a service account)
+ * so we have full permission to add/remove attendees.
+ * Tokens are stored in Vercel KV and auto-refresh.
  */
 
 import { google, calendar_v3 } from "googleapis";
+import { getKey, setKey } from "./db";
+
+interface StoredTokens {
+  access_token: string;
+  refresh_token: string;
+  expiry_date: number;
+  token_type: string;
+  scope: string;
+}
 
 function isEnabled(): boolean {
   return (
     (process.env.ENABLE_CALENDAR_SYNC || "").trim() === "true" &&
-    !!process.env.GOOGLE_CALENDAR_CREDENTIALS &&
-    !!(process.env.GOOGLE_CALENDAR_ID || "").trim()
+    !!process.env.GOOGLE_OAUTH_CLIENT_ID &&
+    !!process.env.GOOGLE_OAUTH_CLIENT_SECRET
   );
 }
 
-let calendarClient: calendar_v3.Calendar | null = null;
+async function getAuthenticatedCalendar(): Promise<calendar_v3.Calendar | null> {
+  if (!isEnabled()) return null;
 
-function getCalendar(): calendar_v3.Calendar {
-  if (calendarClient) return calendarClient;
+  const tokens = await getKey<StoredTokens>("google_calendar_tokens");
+  if (!tokens?.refresh_token) {
+    console.log("[Calendar] No OAuth tokens found. Visit /api/calendar/oauth-start to authorize.");
+    return null;
+  }
 
-  const credentials = JSON.parse(process.env.GOOGLE_CALENDAR_CREDENTIALS || "{}");
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_OAUTH_CLIENT_ID,
+    process.env.GOOGLE_OAUTH_CLIENT_SECRET
+  );
 
-  const auth = new google.auth.GoogleAuth({
-    credentials,
-    scopes: ["https://www.googleapis.com/auth/calendar"],
+  oauth2Client.setCredentials({
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token,
+    expiry_date: tokens.expiry_date,
+    token_type: tokens.token_type,
   });
 
-  calendarClient = google.calendar({ version: "v3", auth });
-  return calendarClient;
+  // Auto-refresh: if token is expired, the client refreshes automatically.
+  // Save the new tokens back to KV.
+  oauth2Client.on("tokens", async (newTokens) => {
+    const updated: StoredTokens = {
+      ...tokens,
+      access_token: newTokens.access_token || tokens.access_token,
+      expiry_date: newTokens.expiry_date || tokens.expiry_date,
+    };
+    if (newTokens.refresh_token) {
+      updated.refresh_token = newTokens.refresh_token;
+    }
+    await setKey("google_calendar_tokens", updated);
+    console.log("[Calendar] OAuth tokens refreshed and saved");
+  });
+
+  return google.calendar({ version: "v3", auth: oauth2Client });
 }
 
 function getCalendarId(): string {
@@ -37,13 +69,13 @@ function getCalendarId(): string {
 }
 
 /**
- * List upcoming events on the calendar (useful for finding event IDs).
+ * List upcoming events on the calendar.
  */
 export async function listEvents(): Promise<calendar_v3.Schema$Event[]> {
-  if (!isEnabled()) return [];
+  const calendar = await getAuthenticatedCalendar();
+  if (!calendar) return [];
 
   try {
-    const calendar = getCalendar();
     const res = await calendar.events.list({
       calendarId: getCalendarId(),
       timeMin: new Date().toISOString(),
@@ -64,10 +96,10 @@ export async function listEvents(): Promise<calendar_v3.Schema$Event[]> {
 export async function getEventAttendees(
   eventId: string
 ): Promise<calendar_v3.Schema$EventAttendee[]> {
-  if (!isEnabled()) return [];
+  const calendar = await getAuthenticatedCalendar();
+  if (!calendar) return [];
 
   try {
-    const calendar = getCalendar();
     const res = await calendar.events.get({
       calendarId: getCalendarId(),
       eventId,
@@ -81,33 +113,33 @@ export async function getEventAttendees(
 
 /**
  * Add an attendee to a Google Calendar event.
- * Fetches current attendees, appends the new one, updates the event.
- * Uses sendUpdates: 'none' to avoid Google sending invitation emails.
  */
 export async function addAttendeeToEvent(
   eventId: string,
   email: string,
   displayName: string
 ): Promise<boolean> {
-  if (!isEnabled() || !email || !email.includes("@")) {
-    console.log("[Calendar] Skipping add attendee — not enabled or invalid email");
+  if (!email || !email.includes("@")) {
+    console.log("[Calendar] Skipping add - invalid email:", email);
+    return false;
+  }
+
+  const calendar = await getAuthenticatedCalendar();
+  if (!calendar) {
+    console.log("[Calendar] Skipping add - not authenticated");
     return false;
   }
 
   try {
-    const calendar = getCalendar();
     const calendarId = getCalendarId();
-
-    // Fetch current event
     const event = await calendar.events.get({ calendarId, eventId });
     const attendees = event.data.attendees || [];
 
-    // Check if already an attendee
     const existing = attendees.find(
       (a) => a.email?.toLowerCase() === email.toLowerCase()
     );
+
     if (existing) {
-      // Update their status to accepted if they were previously declined
       if (existing.responseStatus === "declined") {
         existing.responseStatus = "accepted";
         existing.displayName = displayName;
@@ -124,7 +156,6 @@ export async function addAttendeeToEvent(
       return true;
     }
 
-    // Add new attendee
     attendees.push({
       email,
       displayName,
@@ -143,36 +174,32 @@ export async function addAttendeeToEvent(
   } catch (err: any) {
     const msg = err?.message || err?.errors?.[0]?.message || String(err);
     console.error(`[Calendar] Failed to add ${email} to event ${eventId}:`, msg);
-    // Re-throw so callers can see the actual error
     throw new Error(`Calendar add failed: ${msg}`);
   }
 }
 
 /**
- * Remove an attendee from a Google Calendar event or mark them as declined.
+ * Remove an attendee or mark them as declined.
  */
 export async function removeAttendeeFromEvent(
   eventId: string,
   email: string
 ): Promise<boolean> {
-  if (!isEnabled() || !email || !email.includes("@")) return false;
+  if (!email || !email.includes("@")) return false;
+
+  const calendar = await getAuthenticatedCalendar();
+  if (!calendar) return false;
 
   try {
-    const calendar = getCalendar();
     const calendarId = getCalendarId();
-
     const event = await calendar.events.get({ calendarId, eventId });
     const attendees = event.data.attendees || [];
 
     const idx = attendees.findIndex(
       (a) => a.email?.toLowerCase() === email.toLowerCase()
     );
-    if (idx === -1) {
-      console.log(`[Calendar] ${email} not found on event ${eventId}`);
-      return true;
-    }
+    if (idx === -1) return true;
 
-    // Mark as declined rather than removing (preserves history)
     attendees[idx].responseStatus = "declined";
 
     await calendar.events.patch({
@@ -184,29 +211,18 @@ export async function removeAttendeeFromEvent(
 
     console.log(`[Calendar] Marked ${email} as declined on event ${eventId}`);
     return true;
-  } catch (err) {
-    console.error(`[Calendar] Failed to remove ${email} from event ${eventId}:`, err);
+  } catch (err: any) {
+    console.error(`[Calendar] Failed to remove ${email}:`, err?.message);
     return false;
   }
 }
 
 /**
- * Sync calendar attendees back to the website.
- * Returns a list of emails that have been declined/removed on the calendar
- * but are still marked as attending on the website.
+ * Get list of declined attendee emails.
  */
-export async function getDeclinedAttendees(
-  eventId: string
-): Promise<string[]> {
-  if (!isEnabled()) return [];
-
-  try {
-    const attendees = await getEventAttendees(eventId);
-    return attendees
-      .filter((a) => a.responseStatus === "declined" && a.email)
-      .map((a) => a.email!.toLowerCase());
-  } catch (err) {
-    console.error("[Calendar] Failed to get declined attendees:", err);
-    return [];
-  }
+export async function getDeclinedAttendees(eventId: string): Promise<string[]> {
+  const attendees = await getEventAttendees(eventId);
+  return attendees
+    .filter((a) => a.responseStatus === "declined" && a.email)
+    .map((a) => a.email!.toLowerCase());
 }
