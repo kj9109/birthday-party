@@ -103,10 +103,13 @@ export async function POST(request: Request) {
     sendHostNotification(guestData, plusOneGuest).catch(() => {});
     sendGuestConfirmation(guestData).catch(() => {});
 
-    // Google Calendar sync (fire and forget)
-    syncGuestToCalendar(guestData, previousStatus, plusOneGuest).catch((err) => {
+    // Google Calendar sync — awaited so it completes before function terminates
+    try {
+      await syncGuestToCalendar(guestData, previousStatus, plusOneGuest);
+    } catch (err) {
       console.error("[Calendar] Sync failed for", guestData.email, err);
-    });
+      // Don't block RSVP on calendar failure
+    }
 
     return NextResponse.json(
       { guest: guestData, plusOne: plusOneGuest },
